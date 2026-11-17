@@ -30,7 +30,7 @@ study `MTBLS14208` are present in `data/_raw/`, downloading any missing files.
 #| message: false
 
 base_url <- str_c(
-  "[https://ftp.ebi.ac.uk/pub/databases/metabolights/](https://ftp.ebi.ac.uk/pub/databases/metabolights/)",
+  "http://ftp.ebi.ac.uk/pub/databases/metabolights/",
   "studies/public/MTBLS14208"
 )
 
