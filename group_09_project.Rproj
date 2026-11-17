@@ -1,5 +1,9 @@
 Version: 1.0
+<<<<<<< HEAD
 ProjectId: 5b17b424-d8ca-49c9-a617-ba8e9d64d5f6
+=======
+ProjectId: 47d7cc8d-0c23-48ed-8396-68f268a185b4
+>>>>>>> 872bb46f04542a5be82a7e205439b08c12df5f24
 
 RestoreWorkspace: Default
 SaveWorkspace: Default
@@ -12,3 +16,9 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
+<<<<<<< HEAD
+=======
+
+AutoAppendNewline: Yes
+StripTrailingWhitespace: Yes
+>>>>>>> 872bb46f04542a5be82a7e205439b08c12df5f24
