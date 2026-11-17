@@ -1,0 +1,979 @@
+database_identifier	chemical_formula	smiles	inchi	metabolite_identification	mass_to_charge	fragmentation	modifications	charge	retention_time	taxid	species	database	database_version	reliability	uri	search_engine	search_engine_score	smallmolecule_abundance_sub	smallmolecule_abundance_stdev_sub	smallmolecule_abundance_std_error_sub	T1	T2	T3	T4	T5	T6	T7	T8	T9	T10	T11	T12	T13	T14	T15	T16	T17	T18	T19	T20	T21	T22	T23	T24	T25	T26	T27	T28	T29	C1	C2	C3	C4	C5	C6	C7	C8	C9	C10	C11	C12	C13	C14	C15	C16	C17	C18	C19	C20	C21	C22	C23	C24	C25	C26	C27	C28	C29	C30	C31	Q1	Q2	Q3	Q4	Q5	Q6	Q7	Q8	Q9	Q10
+				Piperettine	312.16029				10.124																																																																																	
+				Lupinisoflavone N	490.20901				6.429																																																																																	
+				Devazepide	463.23434				9.204																																																																																	
+				Etodolac acyl glucuronide	464.19333				5.985																																																																																	
+				Timegadine	404.12887				5.721																																																																																	
+				Sulfoxone	442.98332				4.749																																																																																	
+				Piperine	286.14471				9.388																																																																																	
+				Amantadine	152.14392				4.263																																																																																	
+				Mono-(3-carboxypropyl) phthalate	291.02831				5.632																																																																																	
+				Mopanan-4alpha-ol	303.08739				5.292																																																																																	
+				6-Isopropoxy-9-oxoxanthene-2-carboxylic acid	316.11908				7.546																																																																																	
+				Macrophorin D	505.27907				9.332																																																																																	
+				Pentoxyresorufin	284.12917				9.857																																																																																	
+				Caffeine	195.08842				4.145																																																																																	
+				Altanserin	429.17469				5.112																																																																																	
+				4-Phenylbutanoylcarnitine	308.18663				5.473																																																																																	
+				Temurin	225.09904				3.876																																																																																	
+				Erogorgiaene	271.2429				9.332																																																																																	
+				"(E,E)-Trichostachine"	272.12899				8.308																																																																																	
+				Omarigliptin	399.13004				6.021																																																																																	
+				5-O-Desethyl Amlodipine	381.11927				6.02																																																																																	
+				Leptinidine	414.33795				6.336																																																																																	
+				2-(4-Biphenyl)ethylamine	198.12847				4.753																																																																																	
+				Nervonoylacetone	407.38973				14.201																																																																																	
+				11-Oxo-androsterone glucuronide	498.2716				6.326																																																																																	
+				4-Methoxymedicarpin	318.13462				6.769																																																																																	
+				10-Deoxymethymycin	454.3176				7.858																																																																																	
+				7-Ethyl-10-hydroxycamptothecin	415.12486				5.793																																																																																	
+				PC(12:0/0:0)	440.27875				8.699																																																																																	
+				MG(14:0/0:0)	303.25392				13.084																																																																																	
+				17-HOME(9Z)	299.259				13.401																																																																																	
+				Guibourtinidol-(4alpha->6)-catechin	547.15482				7.376																																																																																	
+				(-)-Cladielline	305.24836				6.782																																																																																	
+				Endoxifen sulfate	454.16504				7.39																																																																																	
+				Cyclo(Pro-Leu)	211.14488				4.656																																																																																	
+				Asp-Gly-Val	290.13566				1.681																																																																																	
+				Octylphenol	207.17502				13.401																																																																																	
+				Guanidinoethyl disulfide	275.04859				1.337																																																																																	
+				DG(a-15:0/0:0/18:1-O)	577.48486				13.528																																																																																	
+				urapidil	388.23633				4.127																																																																																	
+				5-Hydroxydecanoylcarnitine	332.24417				4.834																																																																																	
+				LysoPC(20:5/0:0)	542.3263				9.99																																																																																	
+				Lidamidine	221.1389				3.692																																																																																	
+				"Methyl-(5Z,8Z,11Z,14Z,17Z)-eicosapentaenoate"	317.24859				13.64																																																																																	
+				"1-Hydroxy-2,2,5,5-tetramethylpyrrolidine-3-carboxamide"	187.14482				5.244																																																																																	
+				SCHEMBL26624805	225.18565				13.403																																																																																	
+				PC(P-17:0/0:0)	494.36227				11.258																																																																																	
+				Cortexolone	347.22281				7.773																																																																																	
+				Cyclo(L-Phe-L-Pro)	245.12933				4.982																																																																																	
+				Aminovaleric acid betaine	160.13374				0.757																																																																																	
+				2-trans-6-cis-Dodecadienal	181.15927				14.544																																																																																	
+				Lisofylline	303.14223				4.458																																																																																	
+				8-MethylHexadecanoylcarnitine	414.35913				10.262																																																																																	
+				Gluconolactone	201.03754				0.851																																																																																	
+				"2-Acetyl-4,5-dihydrothiazole"	130.0327				6.687																																																																																	
+				Dexchlorpheniramine	275.13187				4.997																																																																																	
+				"15:6(2Z,4E,6Z,8E,12E,14)(6Me,8Me,10Me[S],13Me)"	287.20154				9.189																																																																																	
+				"(23S,25R)-25-hydroxyvitamin D3 26,23-peroxylactone"	445.29646				11.374																																																																																	
+				Methyl 5-(hydroxymethyl)pyrrolidine-3-carboxylate	160.09739				0.724																																																																																	
+				PGE1 alcohol	358.29632				9.057																																																																																	
+				"24:3(5Z,9Z,17Z)(15Me,19Me,23Me)"	405.37388				14.38																																																																																	
+				7-Methyloctanoylcarnitine	302.23365				6.243																																																																																	
+				10-Hydroxy-8-nor-2-fenchanone glucoside	317.15815				4.825																																																																																	
+				(2Z)-dec-2-enedioylcarnitine	344.20803				4.631																																																																																	
+				Cladinose	177.11281				3.692																																																																																	
+				Lumiflavin	279.08495				4.938																																																																																	
+				Asn-Ile-Leu	341.21828				4.399																																																																																	
+				"4,8 dimethylnonanoyl carnitine"	330.26499				7.683																																																																																	
+				Anhydrovitamin A	269.22724				7.417																																																																																	
+				"N-(2R-methyl-3-hydroxy-ethyl)-16,16-dimethyl-5Z,8Z,11Z,14Z-docosatetraenoyl amine"	435.396				12.163																																																																																	
+				PC(O-17:0/0:0)	496.37762				11.363																																																																																	
+				LysoPE(17:0/0:0)	468.31023				11.034																																																																																	
+				Sakacin P	217.11782				2.77																																																																																	
+				Trp-Ser-Ile	405.21095				5.061																																																																																	
+				Isbogrel	282.15075				7.362																																																																																	
+				Ile-Pro-Gly-Ile	421.24214				4.788																																																																																	
+				LysoPC(17:0/0:0)	510.35732				11.075																																																																																	
+				Carbazole	190.06309				7.377																																																																																	
+				11alpha-hydroxyprogesterone 11-glucosiduronic acid	507.26081				5.455																																																																																	
+				"(-)-11-hydroxy-9,10-dihydrojasmonic acid 11-beta-D-glucoside"	391.19523				4.743																																																																																	
+				"4,6,2',4'-Tetramethoxychalcone 2'-beta-glucoside"	489.17489				7.39																																																																																	
+				"3,4-Dihydrocoumarin"	131.04973				5.227																																																																																	
+				Ile-Ala-Ala-Ile	369.2496				4.976																																																																																	
+				N'-nitrosonornicotine	195.12345				2.752																																																																																	
+				"5alpha-androstane-3beta,17alpha-diol"	293.24836				10.835																																																																																	
+				9S-HpODE	313.23815				11.072																																																																																	
+				Kinetin riboside	365.15851				4.131																																																																																	
+				16-A1-PhytoP	331.18922				8.602																																																																																	
+				Histamine-betaxanthin	305.12319				3.955																																																																																	
+				Trichomonacid	463.2709				7.867																																																																																	
+				5-Methylhexanoylcarnitine	274.20218				5.012																																																																																	
+				Thromboxane B3	369.22592				6.855																																																																																	
+				"3,4-dimethyl-5-carboxypropyl-2-furanpentanoic acid"	283.15422				7.366																																																																																	
+				Heptylmalonic acid	241.08191				7.376																																																																																	
+				hydroxyoctadecadienoic acid	297.24337				14.557																																																																																	
+				Dukunolide A	505.14729				7.389																																																																																	
+				"2-[(1r,3s)-3-Hydroxycyclohexyl]-5-(2-methyloctan-2-yl)phenol"	319.26393				11.717																																																																																	
+				(9E)-7-Hydroxydodec-9-enoylcarnitine	358.25993				5.752																																																																																	
+				"3beta-(3-methyl-butanoyloxy)-villanovane-13alpha,17-diol"	456.33353				8.361																																																																																	
+				Heptaethylene glycol	327.20243				4.129																																																																																	
+				(+)-15-Beyeren-3-one	287.23788				7.867																																																																																	
+				phenylacetyl-carnitine	280.15512				4.315																																																																																	
+				Nastorazepide	521.27425				7.867																																																																																	
+				"9,17-hydroxy-androsta-1,4-dien-3-one"	320.22308				6.602																																																																																	
+				20-Hydroxyeicosatetraenoic acid	343.2255				10.751																																																																																	
+				LysoPC(14:1/0:0)	466.29439				9.201																																																																																	
+				Nicansteroidin A	545.2718				7.823																																																																																	
+				"6,8-dihydroxy-octanoic acid"	177.11279				2.778																																																																																	
+				"(22E)-3beta-Hydroxy-5alpha-chola-16,22-dien-24-oic Acid"	373.27507				6.832																																																																																	
+				Asp-Ile-Leu	360.21413				4.648																																																																																	
+				"16-methyl-9Z,12Z-heptadecadienoic acid"	281.24842				15.039																																																																																	
+				"7,3',4'-Trihydroxyflavone"	271.06096				4.911																																																																																	
+				Dracorhodin perchloric acid	267.10025				6.782																																																																																	
+				LysoPE(0:0/22:6)	526.29472				10.338																																																																																	
+				2-Piperidinone	100.07645				2.167																																																																																	
+				Digitoxic acid	187.05835				1.576																																																																																	
+				24-Methylcholestanol ferulate	601.42645				14.965																																																																																	
+				Ethyl menthane carboxamide	212.20165				9.446																																																																																	
+				"11,12-Dimethoxydihydrokawain"	293.13905				6.628																																																																																	
+				Hexadecanedioic acid mono-L-carnitine ester	430.31792				7.798																																																																																	
+				Zatebradine	495.22439				7.117																																																																																	
+				C14 sphingosine	244.22801				6.74																																																																																	
+				Pyridoxaminium(1+)	169.09787				1.187																																																																																	
+				Obscuraminol C	236.23811				8.593																																																																																	
+				Tridec-8-enoylcarnitine	356.28073				8.604																																																																																	
+				6-Deoxocastasterone	451.3797				13.277																																																																																	
+				"24-Nor-5beta-chol-22-ene-3alpha,7alpha,12alpha-triol"	385.27496				10.234																																																																																	
+				14(R)-Hydroxy-retro-vitamin A	303.23286				10.752																																																																																	
+				"4-Hydroxy-2,6,6-trimethyl-3-oxo-1,4-cyclohexadiene-1-carboxaldehyde"	181.08659				7.379																																																																																	
+				N-Feruloyloctopamine	347.16058				4.841																																																																																	
+				Glutarylcarnitine	276.1451				1.349																																																																																	
+				PS(18:1/0:0)	524.29967				11.543																																																																																	
+				Hexetidine	378.32272				11.349																																																																																	
+				7-(1-Imidazolyl)heptanoic acid	197.12919				4.103																																																																																	
+				dolichyl diphosphate	521.28146				11.545																																																																																	
+				"(Z)-3-(2,4,5-Trimethoxyphenyl)-2-propenal"	223.09731				7.379																																																																																	
+				O-Deethylated candesartan	413.13836				7.39																																																																																	
+				(9Z)-Pentadec-9-enoylcarnitine	384.31216				9.524																																																																																	
+				Methyl neopentyl phthalic acid	251.12864				9.197																																																																																	
+				N-palmitoyl glutamine	385.30769				11.202																																																																																	
+				Non-5-enoylcarnitine	300.218				5.872																																																																																	
+				Solketal	133.08647				3.695																																																																																	
+				Sphingosine 1-phosphate (d16:1-P)	352.22609				8.592																																																																																	
+				(13Z)-3-Hydroxyicos-13-enoylcarnitine	508.34182				10.497																																																																																	
+				Isoamyl salicylate	209.11801				9.197																																																																																	
+				"4-[(2,4-Dihydroxy-3,3-dimethylbutanoyl)amino]butanoic acid"	256.11637				4.119																																																																																	
+				voxtalisib	309.08319				4.254																																																																																	
+				3-hydroxy-8-methoxy-6H-benzo[c]chromen-6-one	243.06367				7.551																																																																																	
+				(S)-(4-Hydroxy-phenyl)-(S)-piperidin-2-yl-acetic acid methyl ester	250.14464				3.816																																																																																	
+				6-Hydroxydecanoylcarnitine	314.23356				6.227																																																																																	
+				Varanic acid	437.32763				10.835																																																																																	
+				"9Z,11E,13-Tetradecatrienyl acetate"	251.20132				14.069																																																																																	
+				N-Acetylkynurenine	251.10358				4.629																																																																																	
+				Leu-Phe-Gln	407.2265				4.523																																																																																	
+				11beta-Hydroxyprogesterone	331.22777				9.308																																																																																	
+				"1alpha,25-dihydroxy-21-norvitamin D3"	403.32217				7.236																																																																																	
+				Myristamide	228.233				11.368																																																																																	
+				Gliclazide	324.14033				6.373																																																																																	
+				PE(10:0/10:0)	524.33079				11.544																																																																																	
+				4-Methylumbelliferone	194.08209				5.344																																																																																	
+				"(22R,23R)-22,23-dihydroxycampesterol"	433.36903				13.275																																																																																	
+				Dynorphin B (10-13)	446.29755				4.626																																																																																	
+				Cichorioside H	463.15896				4.835																																																																																	
+				Docosahexaenoic Acid methyl ester	343.26421				14.002																																																																																	
+				Wyeronic acid	248.09261				4.253																																																																																	
+				DG(i-15:0/0:0/i-12:0)	521.4219				13.283																																																																																	
+				"2,4-Hexadienyl propionate"	172.13379				8.818																																																																																	
+				Mellein	201.05054				5.883																																																																																	
+				Dihydroferulic acid	179.07102				4.939																																																																																	
+				Dioctyl hexanedioate	371.31685				14.88																																																																																	
+				5-Oxooctanoylcarnitine	302.19727				4.895																																																																																	
+				Sarmazenil	320.08166				7.378																																																																																	
+				"N6,N6,N6-Trimethyl-L-lysine"	189.16042				0.664																																																																																	
+				D-erythro-Sphingosine C-17	286.27501				8.906																																																																																	
+				1alpha-hydroxy-2beta-(5-hydroxypentoxy)vitamin D3	503.41124				13.288																																																																																	
+				"1,4-Diazabicyclo[2.2.2]octane"	113.10803				1.063																																																																																	
+				24-Tetracosanolide	367.35818				13.277																																																																																	
+				Emulphor	330.3377				9.823																																																																																	
+				Withanoside XI	637.358				7.237																																																																																	
+				MG(20:4/0:0)	379.28542				13.272																																																																																	
+				dihydrocorticosterone	349.23846				5.295																																																																																	
+				6-Deoxodolichosterone	449.36414				10.993																																																																																	
+				Sebacoyl-L-carnitine	346.22363				4.79																																																																																	
+				Amphimic acid B	417.37173				14.555																																																																																	
+				TG(22:5/22:6/22:6)[iso3]	1047.73746				11.542																																																																																	
+				2-O-Acetyl-trans-coutaric acid	339.06981				4.95																																																																																	
+				C17 Sphingosine	286.27504				8.633																																																																																	
+				Corchoionol C 9-glucoside	409.18484				4.273																																																																																	
+				3-Hydroxyheptanoylcarnitine	272.18648				4.772																																																																																	
+				gamma-Glutamyl-beta-(isoxazolin-5-on-2-yl)alanine	302.09607				1.349																																																																																	
+				PC(O-18:0/2:0)	534.39267				12.031																																																																																	
+				D-2-Butylisothiocyanate	116.05351				6.689																																																																																	
+				N-(3-carboxypropanoyl)-N-hydroxyputrescine	205.11953				0.74																																																																																	
+				7-oxotyphasterol	465.35922				11.898																																																																																	
+				1-Methoxy-1H-indole-3-carboxaldehyde	176.07127				6.173																																																																																	
+				9Z-Heptadecenal	270.2799				12.958																																																																																	
+				Homo-alpha-muricholic acid	440.33848				9.371																																																																																	
+				Epitestosterone	271.20657				7.391																																																																																	
+				MG(20:0/0:0/0:0)[rac]	409.33265				13.935																																																																																	
+				Propiovanillone	203.06628				6.049																																																																																	
+				Palmitamide	256.26422				12.457																																																																																	
+				2-Methoxyestriol	319.19138				7.119																																																																																	
+				"1alpha,24-dihydroxy-25,26,27-trinorvitamin D3"	357.27988				10.139																																																																																	
+				"5beta-Chola-3,11-dien-24-oic Acid"	357.28003				9.051																																																																																	
+				TCH9TXL5LW	239.09194				4.939																																																																																	
+				"3-Oxo-5beta,14beta-chol-8-en-24-oic Acid"	373.27511				7.169																																																																																	
+				Tranexamic acid	158.11817				3.806																																																																																	
+				Glyceryl lactopalmitate	422.13947				4.981																																																																																	
+				"(4Z,10Z,12E)-Tetradeca-4,10,12-trienoylcarnitine"	366.26522				8.475																																																																																	
+				Suberoyl-L-carnitine	318.19202				4.114																																																																																	
+				Phenylalanylmethionine	297.12579				4.114																																																																																	
+				5-O-Methylvisamminol	291.12126				6.041																																																																																	
+				Diethanolamine	88.07646				0.717																																																																																	
+				L-Fucose	187.05852				0.837																																																																																	
+				LysoPC(0:0/14:0)	468.31019				9.824																																																																																	
+				3-Isobutyl-1-methylxanthine	245.10045				3.815																																																																																	
+				"5beta-Chola-3,8(14),11-trien-24-oic Acid"	355.26446				8.822																																																																																	
+				Indole-3-propionic acid	190.08695				6.207																																																																																	
+				12(S)-HPETE	337.23775				10.83																																																																																	
+				"2E,13Z-Octadecadienyl acetate"	326.30628				13.737																																																																																	
+				Poriferasterol	395.36448				15.003																																																																																	
+				"1,2-tetracosanediol"	409.34416				15																																																																																	
+				"2-Hydroxydodeca-5,8-dienoylcarnitine"	356.2443				6.548																																																																																	
+				"(S)-3-Ethylidenehexahydropyrrolo[1,2-a]pyrazine-1,4-dione"	181.0979				4.32																																																																																	
+				"11,12-epoxy-14Z-Eicosenoic acid"	325.27488				8.749																																																																																	
+				LysoPE(P-16:0/0:0)	438.29938				10.867																																																																																	
+				Gln-Val-Phe	393.21078				4.273																																																																																	
+				2-ethyl-2-hydroxy-butyric acid	133.08647				3.951																																																																																	
+				Ethyl lysine	175.14467				0.667																																																																																	
+				DG(15:0/0:0/18:3-OH)	575.46873				12.787																																																																																	
+				N-Linoleoyl Leucine	394.3328				12.724																																																																																	
+				Ribociclib	435.25795				5.073																																																																																	
+				3-carboxy-4-methyl-5-pentyl-2-furanpropanoic acid	269.1392				9.2																																																																																	
+				PC(O-16:1/2:0)	544.33754				10.072																																																																																	
+				Calcidiol	383.33208				12.586																																																																																	
+				Methylnissolin 3-O-glucoside	463.15924				5.642																																																																																	
+				Tetradecylamine	214.25371				9.028																																																																																	
+				POV-PE	552.33344				11.543																																																																																	
+				(+)-Arteannuin	265.14424				10.39																																																																																	
+				10-(Phosphonooxy)decyl methacrylate	345.14493				8.013																																																																																	
+				Caffeoyl tyrosine	361.1405				5.108																																																																																	
+				"Methyl N-({(2s,3s)-3-[(Propylamino)carbonyl]oxiran-2-Yl}carbonyl)-L-Isoleucyl-L-Prolinate"	415.25529				4.395																																																																																	
+				2-Methylamino-2-phenylbutanol	180.13896				3.781																																																																																	
+				Parthenolide	231.13887				8.459																																																																																	
+				3-Furoic acid	130.05044				4.249																																																																																	
+				Netilmicin	476.30836				4.5																																																																																	
+				C17 Sphingosine-1-phosphate	366.24161				9.26																																																																																	
+				5-Hydroxydec-8-enoylcarnitine	330.22856				5.411																																																																																	
+				Dodecanamide	200.20153				10.39																																																																																	
+				gamma-Glutamylglutamic acid	315.06098				0.775																																																																																	
+				8-Propanoylneosolaniol	439.19547				6.412																																																																																	
+				Fukinanolide	235.17003				10.878																																																																																	
+				Isocarbacyclin	368.28081				9.087																																																																																	
+				(12E)-10-Hydroxytetradec-12-enoylcarnitine	368.28083				8.605																																																																																	
+				"1,3-Propanediol, 2,2-diethyl-, dicarbamate"	201.12392				3.901																																																																																	
+				TRI-P-CRESYL PHOSPHATE	369.12619				11.721																																																																																	
+				"1-(1,2,3,4,5-Pentahydroxypent-1-yl)-1,2,3,4-tetrahydro-beta-carboline-3-carboxylate"	367.15129				1.966																																																																																	
+				"5-Hydroxy-3-(4-hydroxybenzyl)-7,8-dimethoxy-4-chromanone"	331.11632				7.696																																																																																	
+				Tetraethylene glycol	217.10566				2.731																																																																																	
+				PC(15:1/0:0)	480.31035				9.913																																																																																	
+				Sphenostylin A	399.17923				11.281																																																																																	
+				4-Oxoretinol	301.21725				11.24																																																																																	
+				Momordol	441.35907				11.284																																																																																	
+				Calcitriol	417.33768				11.256																																																																																	
+				"1alpha,25-dihydroxy-24-methylvitamin D2"	425.34304				11.013																																																																																	
+				MG(0:0/20:4-OH(16R)/0:0)	412.30688				9.14																																																																																	
+				Avocadene	304.28563				8.759																																																																																	
+				Biliverdin	605.23907				8.948																																																																																	
+				"8-[(2R,3S)-3-(8-Hydroxyoctyl)oxiran-2-yl]octanoylcarnitine"	458.34928				8.939																																																																																	
+				"1alpha,25-dihydroxy-19-nor-22-oxavitamin D3"	424.34351				9.905																																																																																	
+				PC(18:0(11cp)/0:0)	536.37302				11.273																																																																																	
+				"6,10-Dimethyl-5(E),9-undecadien-2-one"	195.17507				11.123																																																																																	
+				Isopropyl 4-hydroxybenzoate	203.06615				7.608																																																																																	
+				Glycerol phenylbutyrate	531.27597				12.72																																																																																	
+				N-Desmethylcarboxy Terbinafine	330.14598				6.944																																																																																	
+				7a-Hydroxy-cholestene-3-one	401.34276				14.767																																																																																	
+				Corticosterone	347.22276				7.299																																																																																	
+				N2-Acetylornithine	157.09772				0.763																																																																																	
+				7alpha-hydroxy-3-oxo-5beta-cholanoyl glycine	448.30735				8.33																																																																																	
+				Cytochalasin H	494.28714				9.216																																																																																	
+				18beta-Glycyrrhetinic acid	471.34864				11.734																																																																																	
+				Arecaidine	142.08673				0.763																																																																																	
+				N-Decanoylglycine	230.17596				6.239																																																																																	
+				cichorioside B_qt	261.11079				5.348																																																																																	
+				"(6,12)-11-Hydroxyhexadecadienoylcarnitine"	412.30716				8.526																																																																																	
+				5-Methyldecanoylcarnitine	330.26499				7.972																																																																																	
+				Neogitogenin	433.3327				12.22																																																																																	
+				TRIMAZOSIN	458.20373				5.64																																																																																	
+				12-Methylhenicosanoylcarnitine	484.43785				11.248																																																																																	
+				Fenazaquin	329.16045				11.894																																																																																	
+				Palmitoleoyl Ethanolamide	298.27503				11.118																																																																																	
+				Desoxycortisone acetate	443.18546				7.822																																																																																	
+				Ethyl 3-(4-Fluorophenyl)-3-Oxopropanoate	211.07616				6.995																																																																																	
+				LysoPC(19:0/0:0)	538.38874				12.081																																																																																	
+				Guanidinosuccinic acid	176.06636				0.802																																																																																	
+				LysoPC(0:0/18:0)	524.37295				11.543																																																																																	
+				alpha-Tocopherol phosphate	528.38235				11.543																																																																																	
+				1-Octanethiol	169.10169				8.813																																																																																	
+				"2E,6Z,8Z,12E-hexadecatetraenoic acid"	249.18569				10.902																																																																																	
+				3-Hydroxybutyrylcarnitine	248.15007				1.056																																																																																	
+				Propionylcarnitine	218.13948				1.44																																																																																	
+				"2,4-Dinitrobenzenesulfonic acid"	248.98131				4.604																																																																																	
+				"17-hydroxy-1-oxo-2,3-seco-androstan-3-oic acid"	340.24944				7.533																																																																																	
+				"5-O-Ethyl 3-O-methyl (4S)-2,6-dimethyl-4-(3-nitrophenyl)-3,4-dihydropyridine-3,5-dicarboxylate"	361.13989				6.443																																																																																	
+				2-Hydroxy-5-octenoylcarnitine	302.19723				4.433																																																																																	
+				D-Pipecolinic acid	130.08679				0.762																																																																																	
+				Pentadecadienoic acid	239.20131				12.027																																																																																	
+				Setariol	397.31166				10.562																																																																																	
+				Chenodeoxycholylphenylalanine	540.36814				10.805																																																																																	
+				(S)-lamenallenic acid	296.25937				11.674																																																																																	
+				"24-Oxo-1alpha,23,25-trihydroxyvitamin D3"	447.31206				9.328																																																																																	
+				Decenoylcarnitine	314.23358				6.658																																																																																	
+				5-Hydroxyoctanoylcarnitine	304.21284				4.757																																																																																	
+				Benzolamide	342.95944				4.205																																																																																	
+				Ala-Ala-Ala	249.15636				0.726																																																																																	
+				LysoPE(P-18:1/0:0)	464.31529				11.077																																																																																	
+				Synephrine acetonide	230.11602				3.058																																																																																	
+				"6-Hydroxytrtradeca-9,12-dienoylcarnitine"	366.2652				7.943																																																																																	
+				"5-Hydroxy-7,8,2'-trimethoxyflavone 5-glucoside"	513.13881				7.092																																																																																	
+				dehydro-beta-Ionone	191.1437				13.191																																																																																	
+				Proline betaine	144.10239				0.744																																																																																	
+				MAG(20:5/0:0)	399.25204				11.097																																																																																	
+				Rhodamine B	443.23446				9.005																																																																																	
+				"(12Z,15Z)-10-Hydroxyoctadeca-12,15-dienoylcarnitine"	422.32787				9.644																																																																																	
+				"2,3-Dehydrosalvipisone"	311.16314				11.543																																																																																	
+				11-Beta-hydroxyandrostenedione	303.19646				7.418																																																																																	
+				2-Pentanamido-3-phenylpropanoic acid	250.14232				5.918																																																																																	
+				3-oxodecanoylcarnitine	330.22858				6.111																																																																																	
+				LysoPC(22:6/0:0)	568.34181				10.371																																																																																	
+				Sedanonic acid	233.11311				8.039																																																																																	
+				"12-[1'Z,3'Z-hexadienyloxy]-6Z,9Z,11E-dodecatrienoic acid"	291.19607				10.58																																																																																	
+				Fomentarol B	447.34851				12.176																																																																																	
+				PC(O-18:1/0:0)	508.37804				11.846																																																																																	
+				"1alpha,25-dihydroxy-2alpha-(3-hydroxypropoxy)-19-norvitamin D3"	496.39664				10.663																																																																																	
+				Trigonelline	138.05507				0.733																																																																																	
+				Symmetric dimethylarginine	203.15093				0.708																																																																																	
+				"3-Hydroxydodeca-5,7-dienoylcarnitine"	356.24425				6.126																																																																																	
+				myo-Inositol	203.05327				0.712																																																																																	
+				Cefdinir	418.02113				4.149																																																																																	
+				Gibberellin A14 aldehyde	333.20703				5.349																																																																																	
+				"(6Z,10E)-hexadec-6,10-dien-8-ynoic acid"	249.1857				11.349																																																																																	
+				Neoquassin	391.21061				7.581																																																																																	
+				dihydropyridazinone 6a	246.12462				4.006																																																																																	
+				N-acetyltaurine	168.03376				0.603																																																																																	
+				"2,3-Diacetoxypropyl stearate"	443.33584				12.496																																																																																	
+				LysoPE(O-18:0/0:0)	468.3477				11.838																																																																																	
+				Curvulinic acid	211.05844				3.787																																																																																	
+				Carbocyclic Thromboxane A2	349.27481				11.401																																																																																	
+				"(2E,4Z)-decadienoylcarnitine"	312.21791				6.481																																																																																	
+				"(4S,8R)-8,9-Dihydroxy-p-menth-1(6)-en-2-one"	185.11538				5.364																																																																																	
+				6alpha-Hydroxycastasterone	467.37494				12.08																																																																																	
+				Sterculynic acid	291.23269				13.282																																																																																	
+				Serotonin	177.1029				1.634																																																																																	
+				"(24R)-1alpha,24-dihydroxy-26,27-dimethyl-22-oxavitamin D3"	447.34843				11.731																																																																																	
+				karalicin	285.13191				5.009																																																																																	
+				Norethandrolone	303.23292				9.457																																																																																	
+				1-Ethyl-1H-pyrrole-2-carboxaldehyde	106.06583				4.755																																																																																	
+				"1,2,3,4-Tetrahydroisoquinolin-1-yl formate"	200.06687				3.699																																																																																	
+				Androsterone glucuronide	484.29234				7.626																																																																																	
+				Neostigmine	223.14248				4.414																																																																																	
+				Furfuryl octanoate	225.14923				10.398																																																																																	
+				Ornithine	133.09773				0.638																																																																																	
+				Proversilin D	478.1992				9.19																																																																																	
+				Citronellyl beta-sophoroside	481.26374				4.5																																																																																	
+				O-propanoyl-carnitine	218.13944				0.763																																																																																	
+				Lignoceroylcarnitine	512.46924				11.821																																																																																	
+				4-Hydroxyhexanoycarnitine	276.18143				3.577																																																																																	
+				"(4E,8E,10E-d18:3)sphingosine"	296.25947				7.667																																																																																	
+				Kynurenic acid	190.05053				3.898																																																																																	
+				LysoPE(O-16:0/0:0)	440.31593				10.845																																																																																	
+				Hydroxy-alpha-sanshool	264.19661				8.854																																																																																	
+				L-Alloisoleucine	132.10245				1.051																																																																																	
+				Irbesartan	429.24154				7.327																																																																																	
+				(10Z)-12-Hydroxyhexadecenoylcarnitine	396.31236				9.415																																																																																	
+				"5beta-Cholestane-3alpha,6beta,7alpha,26-tetrol"	454.39065				10.558																																																																																	
+				(Z)-3-Oxo-2-(2-pentenyl)-1-cyclopenteneacetic acid	209.11809				7.404																																																																																	
+				SCHEMBL4371865	301.11702				4.812																																																																																	
+				Asp-Asn-Val	329.14346				1.361																																																																																	
+				Omega-Carboxy-trinor-leukotriene B4	377.13572				5.835																																																																																	
+				Octadecylamine	270.31627				10.387																																																																																	
+				Sinulasterol B	489.35719				12.04																																																																																	
+				7-Oxodecanoylcarnitine	330.22865				5.662																																																																																	
+				O-palmitoylcarnitine	400.34372				10.068																																																																																	
+				PC(P-18:1/20:4-OH)	808.58597				11.724																																																																																	
+				PC(18:0/22:5)	836.61829				12.794																																																																																	
+				"(13Z,16Z)-Hexacosa-13,16-dienoylcarnitine"	536.46896				11.419																																																																																	
+				"1alpha,25-dihydroxy-19-norvitamin D3"	405.33764				11.285																																																																																	
+				Leu-Ala-Trp	389.21891				4.995																																																																																	
+				N-Nervonoyl Aspartic acid	520.34129				9.889																																																																																	
+				"5-Hydroxy-7,4'-dimethoxy-6,8-di-C-prenylflavanone 5-O-galactoside"	491.19076				6.418																																																																																	
+				lysoPE(0:0/16:0)	454.2943				10.622																																																																																	
+				3-Oxopentanoylcarnitine	260.15018				1.424																																																																																	
+				Argininic acid	198.08565				0.715																																																																																	
+				12-methyl-17-octadecene-5-ynoic acid	293.24831				12.754																																																																																	
+				"2-Ethyl-3-hydroxy-2,4,4-trimethyloxazolidine"	160.13381				4.286																																																																																	
+				Niacinamide	123.0559				1.03																																																																																	
+				N-Acetyl-L-aspartic acid	198.03795				0.892																																																																																	
+				Pterostilbene	257.11559				9.817																																																																																	
+				LysoPC(22:1/0:0)	578.41955				12.874																																																																																	
+				Calotropin	533.27422				7.986																																																																																	
+				Wuhanic acid	419.31684				12.01																																																																																	
+				Demethyloleuropein	509.16501				5.056																																																																																	
+				"(2S,3R,4R,5S,6S)-2-(Hydroxymethyl)-6-phenylmethoxyoxane-3,4,5-triol"	271.11617				4.611																																																																																	
+				Hydroxytyrosol Acetate	197.08175				5.056																																																																																	
+				"1-Hydroxy-2,2,5,5-tetramethyl-2,5-dihydro-1h-pyrrole-3-carboxamide"	185.12918				3.405																																																																																	
+				Hexanoylcarnitine	260.18657				4.707																																																																																	
+				"(4E,7E,13E)-Hexadeca-4,7,13-trienoylcarnitine"	394.29658				9.195																																																																																	
+				Icofungipen	164.06862				1.192																																																																																	
+				Normetanephrine	184.095				1.144																																																																																	
+				VINYLSULFONIC ACID	126.02251				0.721																																																																																	
+				Isoleucyl-Valine	231.17095				3.803																																																																																	
+				"(2E,6E,8E)-Decatrienoylcarnitine"	310.20215				5.52																																																																																	
+				4'-Hydroxyechinenone	567.42123				14.973																																																																																	
+				Histidylhistidine	293.13682				0.773																																																																																	
+				O-glutarylcarnitine	276.14496				0.766																																																																																	
+				N-palmitoylglycine	314.26986				12.051																																																																																	
+				Glycohyocholic acid	466.31809				6.446																																																																																	
+				"N-(1,3-Dimethylbutyl)-N'-phenyl-p-phenylenediamine"	269.20226				7.277																																																																																	
+				Asp-Leu-Leu	360.21626				4.89																																																																																	
+				7alpha-hydroxy-3-oxocholest-4-en-27-oic acid	431.31708				10.816																																																																																	
+				Thiomorpholine 3-carboxylate	148.04273				1.033																																																																																	
+				Cladosporin	293.13763				7.035																																																																																	
+				Isocoformycin	302.14504				0.913																																																																																	
+				SCHEMBL5935734	266.13934				4.157																																																																																	
+				(9Z)-12-Hydroxyoctadec-9-enoylcarnitine	442.35438				9.722																																																																																	
+				4-Trimethylammoniobutanoic acid	146.11802				0.727																																																																																	
+				Cyclo(his-pro)	217.10789				0.875																																																																																	
+				1-O-(2R-methoxy-hexadecyl)-sn-glycerol	347.31671				13.306																																																																																	
+				Nicoboxil	224.12649				5.567																																																																																	
+				Deltoidin A	335.18629				6.239																																																																																	
+				Convallamarogenin	431.31747				7.665																																																																																	
+				"Cholestane-3,7,12,25-tetrol-3-glucuronide"	635.37888				8.538																																																																																	
+				(2-Acetyloxy-3-octadecoxypropyl) 2-(trimethylazaniumyl)ethyl phosphate	552.40447				12.444																																																																																	
+				PC(O-11:1/2:0)	452.2793				5.18																																																																																	
+				Stearamide	284.29563				13.672																																																																																	
+				19-Noretiocholanolone	294.24383				9.085																																																																																	
+				Benzyl alcohol	91.05497				4.754																																																																																	
+				"3-Carboxy-2,3,4,9-tetrahydro-1H-pyrido[3,4-b]indole-1-propanoic acid"	289.1192				4.376																																																																																	
+				LysoPC(0:0/18:2)	520.34169				10.383																																																																																	
+				"(2E,6Z)-Dodeca-2,6-dienoylcarnitine"	340.2494				7.24																																																																																	
+				2-Methoxyestradiol	320.22072				8.966																																																																																	
+				"6,7-Epoxy-9Z-octadecene"	284.29562				14.046																																																																																	
+				4-(2-(Ethylamino)propyl)-2-methoxyphenol	210.14964				6.744																																																																																	
+				"(3Z,5E,7E)-Decatrienoylcarnitine"	310.20218				5.783																																																																																	
+				N-(2-Hydroxypropyl)methacrylamide	126.09195				3.404																																																																																	
+				"(5,7)-Decadienoylcarnitine"	312.21794				6.021																																																																																	
+				Isocitric acid	193.03573				0.666																																																																																	
+				Ptilodene	371.16068				8.913																																																																																	
+				Nonanoylcarnitine	302.23363				6.533																																																																																	
+				"Quinoline-3,8-diol"	144.04492				3.638																																																																																	
+				Desmosflavone	297.11178				9.687																																																																																	
+				Tetradecanoylcarnitine	372.31207				9.556																																																																																	
+				Laccarin	195.11357				3.55																																																																																	
+				Glycolithocholic acid	416.31729				9.111																																																																																	
+				"estrane-3alpha,17alpha-diol"	296.25944				9.765																																																																																	
+				S-Cysteinosuccinic acid	255.06365				0.663																																																																																	
+				Pyroglutamylglycine	209.0541				0.888																																																																																	
+				11-Dehydrocorticosterone	345.20727				6.998																																																																																	
+				Leu-Val-Tyr	416.21408				4.378																																																																																	
+				¦Á-Ionone	175.14881				8.126																																																																																	
+				2-Undecyl-thiazolidine-4-carboxylic acid	288.20011				9.903																																																																																	
+				N-Palmitoyl Proline	354.30132				12.57																																																																																	
+				"(23R,25R)-1alpha,25-dihydroxyvitamin D3 26,23-lactone"	445.29641				8.948																																																																																	
+				"2,4-Dimethylbenzaldehyde"	135.08096				9.808																																																																																	
+				3-Methylbut-2-enoylcarnitine	244.15525				3.858																																																																																	
+				N-Hydroxymethyl-N-methylformamide	90.05571				0.718																																																																																	
+				6-Octenoylcarnitine	286.20185				5.487																																																																																	
+				Brassicanal C	224.03835				6.617																																																																																	
+				N-gamma-linolenoyl dopamine	414.3017				9.215																																																																																	
+				N-Acetyl-1-aspartylglutamic acid	327.07999				4.306																																																																																	
+				Prolyl-phenylalanyl-arginine-4-nitroanilide	539.2696				4.646																																																																																	
+				Canthaxanthin	565.40565				14.973																																																																																	
+				Azelnidipine	583.25709				8.268																																																																																	
+				Phytophthora mating hormone alpha1	362.32754				9.248																																																																																	
+				"11-acetoxy-3beta,6alpha-dihydroxy-9,11-seco-5alpha-cholest-7-en-9-one."	477.35807				12.881																																																																																	
+				"(6S,8Z)-6-Hydroxy-3-oxotetradecenoic acid"	257.17549				7.258																																																																																	
+				3-Oxo-5beta-cholanoic acid	357.27995				9.526																																																																																	
+				1-linoleoyl-sn-glycero-3-phosphocholine	534.35759				10.74																																																																																	
+				n-iminoethyl-l-ornithine	174.12438				0.682																																																																																	
+				5-Methylheptadecanoylcarnitine	466.33218				11.066																																																																																	
+				Penmacric acid	203.06678				0.856																																																																																	
+				Avenoleic acid	279.23272				14.561																																																																																	
+				N-oleoyl alanine	354.3014				15.346																																																																																	
+				3-(2-Hydroperoxyethyl)-1H-indole	178.08686				5.459																																																																																	
+				Desacetyllevonantradol	434.20896				8.569																																																																																	
+				2-amino-tetradecanoic acid	244.228				8.484																																																																																	
+				L-Phenylalanine	166.08688				2.125																																																																																	
+				indoprofen	299.14007				6.684																																																																																	
+				PC(16:0/5:0(CHO))	594.37855				11.12																																																																																	
+				"(9Z,12Z,15Z)-3-hydroxyoctadecatrienoylcarnitine"	420.31194				9.551																																																																																	
+				Allysine	128.07117				0.782																																																																																	
+				Testosterone	289.21721				8.59																																																																																	
+				Ciclopirox	208.13155				5.461																																																																																	
+				1-Methylpyrrolidine	86.09722				1.039																																																																																	
+				delta-CEHC	251.12625				6.782																																																																																	
+				L-Asparagine	155.04323				0.713																																																																																	
+				N-[(3s)-2-Oxotetrahydrofuran-3-Yl]butanamide	210.05331				3.986																																																																																	
+				Asaraldehyde	197.08172				6.239																																																																																	
+				Isoamyl p-anisate	223.13354				10.39																																																																																	
+				"methyl 13-butylperoxy-9,11-octadecadienoate"	383.31489				14.071																																																																																	
+				Phenylalanine glutamate	311.12488				2.451																																																																																	
+				N2-gamma-Glutamylglutamine	276.11993				0.727																																																																																	
+				Propiverine	368.22115				6.737																																																																																	
+				"4,5-Dihydro-6-(4-(imidazol-1-yl)phenyl)-5-methyl-3(2H)-pyridazinone"	255.12343				9.378																																																																																	
+				17-octadecynoic acid	281.2484				12.804																																																																																	
+				N-Heptanoylglycine	210.11083				4.577																																																																																	
+				1-O-(2-methoxy-4-hexadecenyl)-sn-glycerol	367.28552				11.401																																																																																	
+				2-(5-Methyl-2-furanyl)-3-piperidinol	182.11583				4.172																																																																																	
+				"1alpha-hydroxy-23,24,25,26,27-pentanorvitamin D3"	331.26416				11.399																																																																																	
+				Brunfelsamidine	110.07194				0.656																																																																																	
+				1-O-(2R-hydroxy-pentadecyl)-sn-glycerol	319.28526				12.07																																																																																	
+				Glycyl-L-proline	173.09274				0.815																																																																																	
+				N-Dodecylsarcosinate	258.24374				8.403																																																																																	
+				Geranylgeraniol	308.29567				12.978																																																																																	
+				Mukoenine A	266.15259				8.125																																																																																	
+				Gibberellin A36	363.17897				6.875																																																																																	
+				5'-Methylthioadenosine	298.09777				3.657																																																																																	
+				Dutasteride	551.21206				6.239																																																																																	
+				Dehydrochorismic acid	262.99523				4.566																																																																																	
+				"3beta-Hydroxychola-5,7-dien-24-oic Acid"	373.27502				8.369																																																																																	
+				2-O-ethyl PAF C-16	510.39366				11.915																																																																																	
+				Scyphostatin A	512.33674				8.029																																																																																	
+				"7-oxo-11E,13-Tetradecadienoic acid"	239.16494				10.694																																																																																	
+				Cyclandelate	277.18072				10.334																																																																																	
+				"1-{2-[(3-Ethylphenyl)amino]-2-oxoethyl}-6-oxo-1,6-dihydropyridine-3-carboxylic acid"	301.11947				5.688																																																																																	
+				L-Kynurenine	209.09277				2.06																																																																																	
+				Schleicherastatin 5	427.35846				13.42																																																																																	
+				Kuguacin E	448.34373				9.909																																																																																	
+				Nervonyl carnitine	510.45354				11.299																																																																																	
+				TrHA	343.26437				9.332																																																																																	
+				Norvaline	140.06878				1.056																																																																																	
+				N-Stearoyl Glutamic acid	414.32276				11.674																																																																																	
+				"3alpha-Hydroxy-1,7-dioxo-5beta-cholan-24-oic Acid"	387.25432				8.548																																																																																	
+				alpha-N-(3-hydroxy-14-methyl-pentadecanoyl)-ornithine	387.32319				8.992																																																																																	
+				Docarpamine	471.17802				7.56																																																																																	
+				19-hydroxy-Resolvin E1	384.23671				5.002																																																																																	
+				8alpha-Hydroxy-gama-tocopherone	433.36942				14.792																																																																																	
+				Enigmol	302.30639				9.189																																																																																	
+				LysoPE(0:0/18:0)	482.32574				11.491																																																																																	
+				"Methyl 6,7-dimethoxy-4-ethyl-beta-carboline-3-carboxylate"	315.13492				7.746																																																																																	
+				L-Arginine	175.11956				0.688																																																																																	
+				Pennogenin	413.30621				12.157																																																																																	
+				beta-D-galactosyl	179.09093				0.68																																																																																	
+				2-(2-Hydroxypropan-2-ylamino)propan-2-ol	116.1076				0.742																																																																																	
+				3-hydroxytetradecanoylcarnitine	388.30712				8.635																																																																																	
+				Centhaquine	332.21353				5.696																																																																																	
+				Phosphate	98.9849				0.775																																																																																	
+				Edetic Acid	293.0988				0.779																																																																																	
+				1-Methylnicotinamide	137.07114				0.704																																																																																	
+				omega-3-Arachidonic acid	305.24835				12.657																																																																																	
+				"trans-11S,12S-Epoxy-6Z,9Z-heneicosadiene"	324.32704				14.418																																																																																	
+				"(3E,5E)-Trideca-3,5-dienoylcarnitine"	354.26285				8.206																																																																																	
+				(E)-Casimiroedine	435.22164				4.856																																																																																	
+				"[(3R,4S)-1,1-Difluoro-3-(hexadecanoylamino)-4-hydroxy-4-phenylbutyl]phosphonic acid"	520.30005				10.384																																																																																	
+				Pseudouridine	245.07916				0.663																																																																																	
+				2-hydroxy-2-(1H-indol-3-yl)acetic acid	192.06622				2.058																																																																																	
+				Pipericine	336.32704				14.081																																																																																	
+				"1-(2,6,6-Trimethyl-2-cyclohexen-1-yl)-1,6-heptadien-3-one"	233.19084				8.924																																																																																	
+				Oleoylethanolamide	326.30628				12.295																																																																																	
+				Penicilloic acid	353.11781				5.089																																																																																	
+				gamma-Glutamylphenylalanine	295.13001				3.971																																																																																	
+				"3-Hydroxynona-4,7-dienoylcarnitine"	336.17776				4.874																																																																																	
+				Phenoperidine	368.22111				6.211																																																																																	
+				Lenticin	247.14496				3.984																																																																																	
+				Dioctylamine	242.28501				9.912																																																																																	
+				Phe-Pro-Ile	393.25172				5.003																																																																																	
+				1-Aminocyclopropanecarboxylic acid	102.05543				0.801																																																																																	
+				O-(17-carboxyheptadecanoyl)carnitine	496.30264				10.663																																																																																	
+				"1a,1b-dihomo-PGE2"	403.2492				9.145																																																																																	
+				2-(3-Pentylphenyl)acetic acid	189.128				10.627																																																																																	
+				Imidacloprid	273.08545				5.248																																																																																	
+				Stoloniferone N	447.34851				11.401																																																																																	
+				"(E)-2-Tridecene-4,6,8-triyn-1-ol"	204.13903				10.835																																																																																	
+				LysoPC(20:2/0:0)	548.37309				11.094																																																																																	
+				Ectoine	143.08203				0.829																																																																																	
+				LysoPC(P-18:1/0:0)	506.36247				11.113																																																																																	
+				Diprenorphine	464.2198				5.769																																																																																	
+				gamma-Aminobutyric acid	104.07132				0.733																																																																																	
+				Thioproline	134.02755				0.756																																																																																	
+				"2,5-Dimethylpyrazine"	147.03096				0.597																																																																																	
+				LysoPC(20:0/0:0)	552.40439				12.712																																																																																	
+				N1-Methyl-2-pyridone-5-carboxamide	153.06643				1.403																																																																																	
+				Isopentyl beta-D-glucoside	273.13178				4.659																																																																																	
+				"(2E,4Z)-2-hydroxy-6-oxohexa-2,4-dienoic acid"	160.06097				0.776																																																																																	
+				L-alpha-Aminobutyric acid	86.06081				0.796																																																																																	
+				15-methylnonadecanoylcarnitine	456.40611				10.845																																																																																	
+				Sphinganine 1-phosphate	382.27297				9.932																																																																																	
+				Citrulline	198.08561				0.945																																																																																	
+				Panaquinquecol 5	185.13316				10.969																																																																																	
+				Phthalamic acid	188.03065				3.637																																																																																	
+				"3beta,5alpha-dihydroxycholesta-7,9(11)-dien-6-one"	415.32225				12																																																																																	
+				Allantoic acid	177.06164				0.664																																																																																	
+				SCHEMBL13588692	317.15062				3.877																																																																																	
+				1-Methyladenine	167.10476				0.662																																																																																	
+				Nonanedioylcarnitine	332.20784				4.437																																																																																	
+				7-Methylguanine	166.07313				1.03																																																																																	
+				17(20)-Dehydrocryptogenin	429.30044				10.047																																																																																	
+				Lawsone	197.01927				5.346																																																																																	
+				(14Z)-Tricos-14-enoylcarnitine	534.39285				11.349																																																																																	
+				Fagomine	148.09728				0.757																																																																																	
+				2-Keto-glutaramic acid	146.0454				0.785																																																																																	
+				"(2R,3R,4R)-2-Amino-4-hydroxy-3-methylpentanoic acid"	148.09733				1.055																																																																																	
+				L-Acetylcarnitine	204.12377				0.76																																																																																	
+				Estreptoquinasa	198.14961				5.776																																																																																	
+				Tarazepide	471.17801				7.862																																																																																	
+				Clavurol A	289.25352				7.822																																																																																	
+				1-O-(2R-methoxy-4Z-tetradecenyl)-sn-glycerol	334.29626				8.077																																																																																	
+				Tetrahydroalstonine	353.18796				5.591																																																																																	
+				Leucyl-Isoleucine	245.18661				4.162																																																																																	
+				4alpha-Carboxy-5alpha-cholesta-8-en-3beta-ol	431.35339				15.231																																																																																	
+				5-((Z)-undec-3-en-1-yl)resorcinol	263.20149				7.687																																																																																	
+				Creatinine	114.06683				0.719																																																																																	
+				PC(O-16:0/0:0)	482.36233				10.894																																																																																	
+				"S-[(3R,3As,6S,6aS)-3-nitrooxy-2,3,3a,5,6,6a-hexahydrofuro[3,2-b]furan-6-yl] ethanethioate"	250.03944				2.138																																																																																	
+				1-[(5-Methyl-2-furanyl)methyl]pyrrolidine	166.1232				3.603																																																																																	
+				Marminal	273.11059				8.576																																																																																	
+				"8,9-dimethoxy-1,2,4,5,6,10b-hexahydro-pyrrolo[5,1-a]isoquinolin-3-one"	248.1266				5.263																																																																																	
+				(10Z)-7-Hydroxyhexadecenoylcarnitine	414.32286				9.133																																																																																	
+				"ent-7,14-diepi-14-F4t-NeuroP"	379.25019				4.948																																																																																	
+				(17Z)-Hexacos-17-enoylcarnitine	538.48498				11.871																																																																																	
+				"12,13-Dimethyl-5,14-dioxabicyclo[9.2.1]-tetradeca-1(13),11-dien-4-one"	237.14927				8.9																																																																																	
+				Yucalexin A19	336.25201				8.432																																																																																	
+				L-Histidine	156.07734				0.658																																																																																	
+				4-Methylmannitol	219.08356				0.68																																																																																	
+				2-amino-hexadecanoic acid	272.25929				8.21																																																																																	
+				all-trans-Retinoic acid	301.21714				12.766																																																																																	
+				Mesitylene	121.10185				5.122																																																																																	
+				"9-hydroxy-7Z-Nonene-3,5-diynoic acid"	165.05526				1.112																																																																																	
+				Baikiain	166.02664				0.894																																																																																	
+				Cortisol	363.21777				6.217																																																																																	
+				16-L1-PhytoP	349.17868				8.907																																																																																	
+				OXYQUINOLINE	146.06054				3.638																																																																																	
+				Tetraethylene glycol monododecyl ether	363.3116				12.069																																																																																	
+				Lysylglycine	204.13556				0.762																																																																																	
+				Dodecylamine	186.22234				8.039																																																																																	
+				Phenol	77.03929				3.688																																																																																	
+				3-Indolebutyric acid	204.10271				6.831																																																																																	
+				Thermophillin	169.05016				6.052																																																																																	
+				3-Hydroxyvalerylcarnitine	262.16566				1.533																																																																																	
+				Amperozide	402.23484				4.331																																																																																	
+				Glyceraldehyde 3-phosphate	171.00625				0.606																																																																																	
+				"(2S,3S,4S)-5,7,9,11-Tridecatetrayne-1,2,3,4-tetrol"	233.07929				5.794																																																																																	
+				"9-deoxy-9-methylene-16,16-dimethyl -PGE2"	361.27481				10.25																																																																																	
+				Betaine	118.08686				0.723																																																																																	
+				12-Hydroxydodecanoylcarnitine	342.26509				7.964																																																																																	
+				Tetradecenoylcarnitine	370.29651				9.195																																																																																	
+				Acetyldeoxynivalenol	339.1427				5.35																																																																																	
+				2R-aminohexadecanoic acid	272.2593				8.525																																																																																	
+				"xi-4,5-Dihydro-2,4(5)-dimethyl-1H-imidazole"	99.0924				0.837																																																																																	
+				"(25R)-11alpha,20,26-trihydroxyecdysone"	535.28993				7.402																																																																																	
+				"l-Cysteine, S-butyl-"	178.09093				0.856																																																																																	
+				L-Octanoylcarnitine	288.21788				5.822																																																																																	
+				2R-hydroxy-linoleic acid	297.24345				10.822																																																																																	
+				"Tambulin 3,5-diacetate"	429.11968				7.318																																																																																	
+				H-Hyp-gly-OH	227.04377				0.9																																																																																	
+				Arginine hydrochloride	211.0947				0.663																																																																																	
+				Scopoletin	193.05042				4.871																																																																																	
+				PA(O-20:0/0:0)	453.33539				15.229																																																																																	
+				(+/-)-(E)-Methyl-2-[(E)-hydroxyimino]-5-nitro-6-methoxy-3-hexeneamide	232.09288				4.577																																																																																	
+				Riboflavin	377.14587				4.267																																																																																	
+				Miraxanthin-V	347.12487				4.447																																																																																	
+				LysoPC(0:0/20:4)	544.34173				10.394																																																																																	
+				N-Lauroyl Isoleucine	314.26992				8.754																																																																																	
+				Scutigeral	395.22147				10.503																																																																																	
+				sporogen-AO-1	266.17357				7.005																																																																																	
+				5-L-Glutamyl-taurine	293.02062				0.769																																																																																	
+				Glycerophosphocholine	258.11085				0.721																																																																																	
+				L-Proline	116.07123				0.74																																																																																	
+				"Ethyl 4-(3,4-dimethoxyphenyl)-6,7-dimethoxy-2-(1H-1,2,4-triazol-1-ylmethyl)-3-quinolinecarboxylate"	479.19107				8.287																																																																																	
+				Benzoyl chloride	141.01062				3.696																																																																																	
+				4-coumaroylshikimate	321.09558				5.02																																																																																	
+				Oleacein	321.13198				6.646																																																																																	
+				N-Undecanoylglycine	244.19161				7.006																																																																																	
+				3-Hydroxy-2-methylglutaric acid	145.05004				0.76																																																																																	
+				5S-HETE di-endoperoxide	403.23508				10.066																																																																																	
+				"N-(3E,5Z-dodecadienoyl)-homoserine lactone"	280.18926				9.073																																																																																	
+				PE-Cer(d16:1/21:0)	703.57683				12.513																																																																																	
+				Abscisic acid	282.16861				5.925																																																																																	
+				N-Desmethyl tapentadol	208.17038				7.004																																																																																	
+				"(8alpha,10beta,11beta)-3-Hydroxy-4,15-dinor-1(5)-xanthen-12,8-olide"	225.14929				7.21																																																																																	
+				Methoxamine	212.12643				4.845																																																																																	
+				Ginsenoyne C	259.17006				8.813																																																																																	
+				Protoanemonin	79.01866				3.945																																																																																	
+				Methionine sulfoxide	166.05382				0.771																																																																																	
+				Protectin D1n-3 DPA	363.25278				10.071																																																																																	
+				LysoPC(0:0/16:0)	496.34143				10.663																																																																																	
+				"3-(3,4-Dimethoxyphenyl)-2-propenoic acid"	191.07102				5.751																																																																																	
+				3-Hexenyl salicylic acid	221.11798				10.331																																																																																	
+				"3-(3,4-Dihydroxyphenyl)-N-[2-(3,4-dihydroxyphenyl)ethyl]prop-2-enamide"	333.14551				6.126																																																																																	
+				L-Aspartic acid	134.04528				0.779																																																																																	
+				Pyridoxamine	207.05136				0.664																																																																																	
+				"Benzamide, 3-(3-((2-(3,4-dihydroxyphenyl)ethyl)amino)butyl)-"	329.18804				4.825																																																																																	
+				"3E,5E-tridecadienoic acid"	228.19667				10.807																																																																																	
+				"12-Keto-9Z,13Z,15Z-octadecatrienoic acid"	293.21186				10.52																																																																																	
+				6-dehydrotestosterone	287.2015				5.969																																																																																	
+				Nitrite	85.96383				0.606																																																																																	
+				Ondansetron	311.18629				9.381																																																																																	
+				gamma-Glutamylserine	235.09321				0.796																																																																																	
+				L-Carnitine	162.11298				0.712																																																																																	
+				"5-Megastigmen-7-yne-3,9-diol 9-glucoside"	353.19691				6.239																																																																																	
+				Benzquinamide	405.23979				7.358																																																																																	
+				LysoPC(P-20:0/0:0)	536.40942				12.114																																																																																	
+				Herierin IV	188.09135				3.633																																																																																	
+				"Dodeca-2,5,8-trienoylcarnitine"	338.23362				6.692																																																																																	
+				Sinalbin A	281.04131				5.473																																																																																	
+				11-Dodecanolide	181.15928				10.51																																																																																	
+				3-Hydroxy-3-phenylpentanamide	194.11593				4.848																																																																																	
+				Fudosteine	162.05872				0.855																																																																																	
+				Congressane	189.16444				8.289																																																																																	
+				FAHFA(12:1/3-O-8:0)	341.26744				12.071																																																																																	
+				Tetradecyl acetate	274.27494				7.924																																																																																	
+				2-Amino-3-cyclohexylpropanoic acid	172.1338				4.849																																																																																	
+				PD143310	591.31616				8.555																																																																																	
+				"N-(17,18-epoxy-5Z,8Z,11Z,14Z-eicosatetraenoyl)-ethanolamine"	400.22383				9.115																																																																																	
+				"(S)-p-Menth-1-ene-4,7-diol 4-glucoside"	333.18946				4.554																																																																																	
+				3-Oxalomalic acid	207.01496				0.701																																																																																	
+				Carbonyl cyanide p-trifluoromethoxyphenylhydrazone	293.00592				7.363																																																																																	
+				2-Sulfamoylacetic Acid	140.0023				0.606																																																																																	
+				LysoPE(20:1/0:0)	508.34075				11.678																																																																																	
+				"xi-2,2,6-Trimethyl-1,4-cyclohexanedione"	172.13379				5.448																																																																																	
+				Dopamine	136.07621				1.111																																																																																	
+				L-Threonine	120.06613				0.734																																																																																	
+				Allo-hydroxycitric acid lactone	213.00014				0.763																																																																																	
+				Phenylalanylproline	263.13994				4.251																																																																																	
+				Indole	118.06574				3.675																																																																																	
+				Ganoderiol B	493.33199				10.069																																																																																	
+				Malvalic acid	263.23776				13.605																																																																																	
+				Deoxycorticosterone	313.21736				8.813																																																																																	
+				Perilloside E	371.13243				4.842																																																																																	
+				Thromboxane A3	368.24245				8.826																																																																																	
+				"(R)-11,12,13-Trinor-1(5),6,9-guaiatrien-8-one"	157.10176				8.813																																																																																	
+				Methyl 2-amino-3-(4-chlorophenyl)propanoate	214.06368				4.407																																																																																	
+				"Stigmast-4,22-diene-3,6-dione"	425.34403				10.071																																																																																	
+				(beta-1-O-[N-(2-hydroxymethyl-3-chlorophenyl)anthraniloyl]-D-glucupyranuronic acid)	470.08477				3.648																																																																																	
+				L-Tyrosine	182.0819				1.112																																																																																	
+				"1-(2,3-Dihydro-1H-pyrrolizin-5-yl)-1,4-pentanedione"	206.11594				5.117																																																																																	
+				3-Butynoic acid	85.02916				0.76																																																																																	
+				Furcelleran	478.19892				14.921																																																																																	
+				(6Z)-Oct-6-enedioylcarnitine	316.17655				3.829																																																																																	
+				"4-Hydroxytrideca-7,10-dienoylcarnitine"	352.24707				6.958																																																																																	
+				Chamuvaritin	453.16936				10.132																																																																																	
+				2-(1-Pyrrolidinyl)-2-cyclopenten-1-one	152.10757				4.576																																																																																	
+				"2,6-dihydroxy-4-methoxybenzoic acid"	185.04519				4.74																																																																																	
+				Alogliptin	340.17917				4.825																																																																																	
+				Physagulin A	511.27213				8.812																																																																																	
+				Poprunellelactone	202.14453				6.309																																																																																	
+				Annuionone B	240.15797				6.266																																																																																	
+				(Z)-3-Hexenyl hexadecanoate	321.31622				14.997																																																																																	
+				Estrane	247.2429				9.742																																																																																	
+				Protofarrerol	319.11617				7.101																																																																																	
+				Thiomorpholine	104.05356				1.03																																																																																	
+				Butyrylcarnitine	232.1552				2.935																																																																																	
+				17alpha-Estradiol	273.18559				8.813																																																																																	
+				"1,5-Naphthalenediamine"	159.09223				3.637																																																																																	
+				4-Methyltetradecanoylcarnitine	386.32711				10.037																																																																																	
+				L-Cystathionine	261.0314				0.59																																																																																	
+				3-Sulfinoalanine	171.04393				0.597																																																																																	
+				Prenylcysteine	190.09034				4.117																																																																																	
+				Palmitoylethanolamide	300.29064				12.022																																																																																	
+				3-Hydroxy-L-proline	132.06604				0.775																																																																																	
+				L-trans-5-Hydroxy-2-piperidinecarboxylic acid	128.0712				1.37																																																																																	
+				3-Methylene-indolenine	130.06569				5.502																																																																																	
+				Cbz-L-prolyl-D-proline	347.16107				4.483																																																																																	
+				"heptane-1,2,3-triol"	171.0997				4.313																																																																																	
+				Val-Val-Phe	364.22657				4.938																																																																																	
+				Indoleacetic acid	176.07125				5.501																																																																																	
+				Metenamine	179.06847				0.661																																																																																	
+				Racemethionine	150.05885				0.763																																																																																	
+				4-O-Methylmelleolide	437.19497				9.804																																																																																	
+				Abietic acid	303.23282				12.76																																																																																	
+				PA(17:2/0:0)	421.23403				11.097																																																																																	
+				5beta-Cyprinolsulfate	533.31306				8.555																																																																																	
+				Glutamylhistidine	302.14534				0.659																																																																																	
+				2-(Ethylamino)ethanol	72.08159				0.762																																																																																	
+				Gamma-Glutamylalanine	219.09823				0.761																																																																																	
+				"N-(2,4-Dinitrophenyl)ethylenediamine"	249.06183				3.634																																																																																	
+				"(4E,15E)-Bilirubin"	585.27111				14.91																																																																																	
+				"3,4-dimethyl-5-carboxyethylene-2-furanpentanoic acid"	249.11268				6.647																																																																																	
+				N-methyl-L-glutamic Acid	144.066				0.76																																																																																	
+				1-O-(2R-hydroxy-4Z-hexadecenyl)-sn-glycerol	313.27466				10.466																																																																																	
+				Demeton-S-methyl	253.01084				5.158																																																																																	
+				"Methyl 4,7,10,13,16-docosapentaenoate"	345.27989				14.437																																																																																	
+				XANOMELINE	282.16431				7.142																																																																																	
+				7-Methylpentacosanoylcarnitine	540.50063				12.576																																																																																	
+				L-Tryptophan	205.09785				3.637																																																																																	
+				Glutamylthreonine	249.10862				0.743																																																																																	
+				S-methylcysteine sulfoxide	152.03715				0.597																																																																																	
+				o-Oxycarbanil	154.04955				3.696																																																																																	
+				gamma-Glutamylmethionine	279.10186				2.022																																																																																	
+				2-Aminoethanesulfonamide	125.03852				0.597																																																																																	
+				20-Eicosanolide	328.32192				13.21																																																																																	
+				Choline	104.10769				0.708																																																																																	
+				N-LAUROYLSARCOSINE	254.21237				8.654																																																																																	
+				Threonylglycine	177.0877				0.849																																																																																	
+				Vitamin A	269.22714				12.763																																																																																	
+				D-Tyrosine	182.08185				0.763																																																																																	
+				"5,11-dihydro-EMODDO"	464.16898				8.636																																																																																	
+				S-3-oxodecanoyl cysteamine	246.15311				7.307																																																																																	
+				Proversilin A	268.18922				8.124																																																																																	
+				(5E)-Undec-5-enoylcarnitine	328.24931				7.213																																																																																	
+				Nicardipine	480.21467				7.328																																																																																	
+				Octenoyl-L-carnitine	286.20224				5.195																																																																																	
+				L-Methionine	150.05885				1.03																																																																																	
+				Secasterone	447.34837				10.804																																																																																	
+				"5beta-Chola-7,9(11)-dien-24-oic Acid"	357.27742				8.812																																																																																	
+				"2,3-Diaminopyridine"	148.02789				0.594																																																																																	
+				Trp-Leu	318.18228				4.733																																																																																	
+				13-Docosenamide	338.34272				14.997																																																																																	
+				Aspartylhydroxyproline	247.09331				0.783																																																																																	
+				1-O-(2R-hydroxy-4Z-pentadecenyl)-sn-glycerol	299.25926				9.587																																																																																	
+				p-Menth-1-en-5-ol	172.17018				9.037																																																																																	
+				5-Hydroxyoxindole	132.04495				3.901																																																																																	
+				(2R)-1-O-beta-D-Galactopyranosylglycerol	293.06585				0.763																																																																																	
+				"(¡À)-2,2'-Iminobispropanoic acid"	184.05867				1.087																																																																																	
+				7-oxo-8-amino-nonanoic acid	188.12885				4.576																																																																																	
+				"1-(2,3-Dihydro-6-methyl-1H-pyrrolizin-5-yl)-1,4-pentanedione"	220.1316				5.314																																																																																	
+				sphingosylphosphorylcholine	465.347				8.416																																																																																	
+				Spermidine	146.16576				0.631																																																																																	
+				2-Amino-1-phenylethanol	120.08142				2.12																																																																																	
+				4-hydroxy-8cis-sphingenine	316.28599				9.406																																																																																	
+				Isovalerylcarnitine	246.17086				4.061																																																																																	
+				Cotinine	177.10285				1.074																																																																																	
+				gamma-Glutamylvaline	247.12957				1.935																																																																																	
+				Imidazolepropionic acid	141.06627				0.739																																																																																	
+				Purpald	147.04459				1.112																																																																																	
+				(3E)-Hexenoylcarnitine	258.17094				4.293																																																																																	
+				LysoPC(0:0/18:1)	522.35736				10.885																																																																																	
+				3'-Hydroxyamobarbital	243.13469				4.327																																																																																	
+				Cortisone	361.20216				6.269																																																																																	
+				2-Aminoacrylic acid	125.99473				0.606																																																																																	
+				"2,5-Dioxopyrrolidin-1-yl 2-(acetylthio)acetate"	232.02754				1.354																																																																																	
+				2-Chloro-L-phenylalanine	222.03018				3.701																																																																																	
+				Tetranor-PGEM	311.14961				5.059																																																																																	
+				2-Hydroxy-6-(8-tridecenyl)benzoic acid	319.22734				12.764																																																																																	
+				SM(d16:0/18:0)	705.58356				12.424																																																																																	
+				Meta-O-dealkylated lactam flecainide-sulfate	465.03494				3.703																																																																																	
+				Allithiamine	377.10969				5.688																																																																																	
+				LysoPE(20:4/0:0)	502.29456				10.36																																																																																	
+				"Octa-3,6-dienoylcarnitine"	284.18662				4.804																																																																																	
+				L-Serine	88.03996				0.778																																																																																	
+				Homo-L-arginine	189.1353				0.708																																																																																	
+				Chenodeoxycholyltaurine	500.30596				8.545																																																																																	
+				LysoPE(0:0/22:5)	528.31044				10.543																																																																																	
+				H-Phe-Trp-OH	352.16674				4.749																																																																																	
+				13-cis-retinol	287.23781				14.301																																																																																	
+				Catechin-4-ol 3'-methyl ether 3-O-alpha-L-rhamnopyranoside	467.15421				7.409																																																																																	
+				"1alpha,25-dihydroxy-9,11-didehydro-3-deoxyvitamin D3"	399.32708				12.267																																																																																	
+				N-Acetyl-b-glucosaminylamine	203.10323				0.756																																																																																	
+				N-Acetylglutamine	171.07696				0.727																																																																																	
+				Propylenediamine tetra-acetic acid	307.11499				0.763																																																																																	
+				1-Methyladenosine	282.12016				0.761																																																																																	
+				"8-Cyclopentyl-1,3-dimethylxanthine"	271.11609				5.117																																																																																	
+				7-Dehydrocholesterol-3-sulfate ester	503.25738				13.014																																																																																	
+				Taurine	143.049				0.597																																																																																	
+				Sphingofungin D	432.29538				8.813																																																																																	
+				"7-(2-hydroxypropan-2-yl)-1,4a-dimethyl-2,3,4,5,6,7,8,8a-octahydronaphthalen-1-ol"	258.24373				8.635																																																																																	
+				Oleoylcarnitine	426.35919				10.186																																																																																	
+				L-Lysine	147.11331				0.637																																																																																	
+				N-Eicosapentaenoyl Phenylalanine	450.30156				13.061																																																																																	
+				5-Mercapto-1-methyltetrazole	117.02299				0.605																																																																																	
+				3-hydroxyhexadecanoyl carnitine	398.32796				9.751																																																																																	
+				4alpha-Formyl-4beta-methyl-5alpha-cholesta-8-en-3beta-ol	429.37414				14.552																																																																																	
+				N-linolenoyl dopamine	414.30166				8.971																																																																																	
+				"1alpha,2alpha,25-trihydroxy-19-norvitamin D3"	403.32174				10.067																																																																																	
+				gamma-Glutamyltryptophan	334.14085				4.236																																																																																	
+				Dibutylamine	130.1596				4.084																																																																																	
+				Pubescenol	585.27289				9.928																																																																																	
+				Tolmetin glycinamide	315.13491				6.901																																																																																	
+				Ephedrine methyl ether	180.13896				4.465																																																																																	
+				9-tridecynoic acid	211.16996				10.984																																																																																	
+				methyl 4-[2-(2-formyl-vinyl)-3-hydroxy-5-oxo-cyclopentyl]-butanoate	237.11299				6.607																																																																																	
+				"(1S)-1-hydroxy-23-oxo-24,25,26,27-tetranorcalciol"	359.25923				7.77																																																																																	
+				gamma-CEHC	247.13386				7.13																																																																																	
+				"24,25-epoxy-1alpha-hydroxyvitamin D3"	415.32202				8.466																																																																																	
+				PE(0:0/18:3)	476.27899				9.919																																																																																	
+				8-Methylicosanoylcarnitine	508.37814				11.117																																																																																	
+				benzyl-6-hydroxy-2-cyclohexene-on-oyl	247.09493				6.642																																																																																	
+				7-Methylheptadecanoylcarnitine	428.37492				10.484																																																																																	
+				2-(2-Chlorobenzamido)acetic acid	236.00884				5.472																																																																																	
+				7-Methylnonanoylcarnitine	316.24932				7.259																																																																																	
+				N-Acetylisoputreanine	203.13984				0.76																																																																																	
+				Piperitone	153.12797				8.784																																																																																	
+				SCHEMBL16084109	526.33104				10.394																																																																																	
+				gamma-Glutamylglycine	187.07198				0.829																																																																																	
+				Statine	193.1554				0.713																																																																																	
+				Alitame	332.16489				4.375																																																																																	
+				"1,3-Dimethoxymethyl-5,5-diphenylbarbituric acid"	369.14339				6.899																																																																																	
+				4-vinylguaiacol	151.07594				7.131																																																																																	
+				3-hydroxydodecanoyl carnitine	360.27568				7.271																																																																																	
+				6-Guanidino-2-oxocaproic acid	188.10361				0.72																																																																																	
+				Indane	119.08611				9.803																																																																																	
+				"(1S,2S,4R,8R)-p-Menthane-1,2,8,9-tetrol"	227.12584				0.712																																																																																	
+				13-Hydroxyhexadecanoylcarnitine	416.33861				9.522																																																																																	
+				"2H-1-Benzopyran-2-one, aminomethyl-"	158.06061				3.641																																																																																	
+				Dinitolmide	226.04584				1.112																																																																																	
+				Methyl sulfate	130.01736				0.596																																																																																	
+				2-Hydroxybenzaldehyde	123.04468				1.112																																																																																	
+				"(5Z,8Z,13E,15S)-11,12,15-Trihydroxyicosa-5,8,13-trienoylcarnitine"	498.34434				8.949																																																																																	
+				Harmine	213.10315				4.725																																																																																	
+				2-Hydroxypurine	137.04627				0.763																																																																																	
+				Gyrophoric acid	469.11238				7.32																																																																																	
+				"methyl 5S,6R-epoxy-7-eicosynoate"	337.27472				10.213																																																																																	
+				Acetaminophen	152.0712				3.274																																																																																	
+				11-Hydroxy-12-methoxydihydrokawain	279.12346				7.099																																																																																	
+				Non-4-enoylcarnitine	300.21799				5.587																																																																																	
+				Parthenin	280.15363				6.735																																																																																	
+				Cyclohexane	107.08324				8.813																																																																																	
+				"(23S)-1alpha-hydroxy-25,27-didehydrovitamin D3 26,23-lactone"	427.28584				8.948																																																																																	
+				5-(4-Carboxybutylperoxy)pentanoic acid	217.1079				5.464																																																																																	
+				Tridec-2-enoylcarnitine	356.2786				8.076																																																																																	
+				PS(20:2/19:0)	847.61716				8.814																																																																																	
+				L-cis-3-Amino-2-pyrrolidinecarboxylic acid	131.08203				0.838																																																																																	
+				Arachidonic Acid methyl ester	319.26413				14.301																																																																																	
+				"1-(2,3-Dihydro-6,7-dimethyl-1H-pyrrolizin-5-yl)-2-hydroxy-1-propanone"	208.13157				5.107																																																																																	
+				Val-Thr-Asn	315.16822				0.766																																																																																	
+				"6-Amino-5-chloropyrimidine-2,4(1H,3H)-dione"	162.00793				0.606																																																																																	
+				5-Hydroxydec-7-enoylcarnitine	330.22864				5.072																																																																																	
+				20-Hydroxyeicosatrieneoic acid	323.25908				11.164																																																																																	
+				VALNOCTAMIDE	144.13885				6.815																																																																																	
+				"(E)-4-(6-((formyloxy)methyl)-1,2-dithiin-3-yl)but-1-en-3-yn-1-yl acetate"	283.00862				4.622																																																																																	
+				(ent-15beta)-15-Hydroxy-19-trachylobanoic acid	319.22557				9.915																																																																																	
+				2-Hydroxyibuprofen	223.13374				6.715																																																																																	
+				Nafagrel	257.12931				6.092																																																																																	
+				Homarine	155.08206				1.372																																																																																	
+				Leiopathic acid	329.24861				11.073																																																																																	
+				Exaprolol	292.22803				6.817																																																																																	
+				"(4E,6E,10Z,13Z,16Z,19Z)-8-Hydroxydocosa-4,6,10,13,16,19-hexaenoylcarnitine"	526.29534				10.01																																																																																	
+				Phenylalanylphenylalanine	313.15564				4.65																																																																																	
+				N6-Acetyl-L-lysine	171.11334				0.764																																																																																	
+				Glycylhydroxyproline	189.08763				0.825																																																																																	
+				12-amino-dodecanoic acid	216.19665				6.441																																																																																	
+				[6]-Gingerdione	293.17538				9.382																																																																																	
+				n6-iminoethyl-l-lysine	188.13998				0.704																																																																																	
+				trans-2-Dodecenoylcarnitine	342.26511				8.174																																																																																	
+				S-Allylcysteine	162.05876				1.521																																																																																	
+				Sphingosine 1-phosphate	380.25734				9.742																																																																																	
+				Dehydrophytosphingosine	338.26763				9.407																																																																																	
+				(1R)-1-Amino-3-sulfanylpropane-1-sulfinic acid	156.01468				0.596																																																																																	
+				N-[1-Hydroxy-3-(morpholin-4-yl)-1-phenylpropan-2-yl]hexadecanamide	475.38796				12.163																																																																																	
+				3-hydroxy-.beta.-ionol	228.1967				8.126																																																																																	
+				Dodecanoylcarnitine	344.28074				8.663																																																																																	
+				LysoPC(20:3/0:0)	546.35731				10.677																																																																																	
+				Ginsenoyne K	277.1807				11.056																																																																																	
+				Psilostachyin	281.13918				6.646																																																																																	
+				Isokobusone	240.1966				8.406																																																																																	
+				trans-Allo-ocimene	109.10188				4.849																																																																																	
+				SM(d18:2/TXB2)	832.58542				10.805																																																																																	
+				Uracil	113.03524				1.068																																																																																	
+				LysoPE(0:0/20:4)	502.29493				10.08																																																																																	
+				Alanylvaline	171.11341				1.108																																																																																	
+				"8-desoxy-19,20-epoxycytochalasin C"	508.26695				8.813																																																																																	
+				LysoPC(20:1/0:0)	550.38871				11.734																																																																																	
+				p-Octopamine	136.07617				0.765																																																																																	
+				Gallicynoic acid F	341.26912				10.067																																																																																	
+				3-beta-Hydroxy-4-beta-methyl-5-alpha-cholest-7-ene-4-alpha-carboxylate	445.36909				14.561																																																																																	
+				Pectachol	460.27092				9.803																																																																																	
+				Lumichrome	243.0886				5.244																																																																																	
+				Lamivudine-monophosphate	327.05251				0.663																																																																																	
+				"8,9-DiHETrE"	321.24126				9.918																																																																																	
+				"1,2-Dihydrodehydroguaiaretic acid"	349.14056				5.831																																																																																	
+				Tilsuprost	406.20406				7.974																																																																																	
+				"1R-cis-3,3,5-Trimethylcyclohexyl ester5-oxo-L-proline"	254.17352				7.21																																																																																	
+				PC(18:3/0:0)	518.32624				9.989																																																																																	
+				LysoPE(0:0/18:2)	478.29449				10.342																																																																																	
+				"3,4-Dihydro-5-(5-methyl-2-furanyl)-2H-pyrrole"	132.08132				5.46																																																																																	
+				9-hydroxy-5Z-nonenoic acid	155.10719				4.849																																																																																	
+				Hydroxy-Beta-Sanshool	264.19436				9.067																																																																																	
+				LysoPC(0:0/16:1)	494.32571				10.093																																																																																	
+				Aminomethanesulfonic acid	112.00692				0.597																																																																																	
+				"3alpha,7alpha,11alpha-Trihydroxy-12-oxo-5beta-cholan-24-oic Acid"	423.27646				5.063																																																																																	
+				Isoxanthopterin	202.03326				1.224																																																																																	
+				Fe(II)-nicotianamine	280.09298				1.302																																																																																	
+				Indoleacetaldehyde	160.07624				3.636																																																																																	
+				Coriandrone A	315.12129				6.318																																																																																	
+				Hypoxanthine	137.04629				1.03																																																																																	
+				Methylone	208.09516				4.001																																																																																	
+				Allantoin	159.05075				0.594																																																																																	
+				"3,4-Methylenedioxy-N-ethylamphetamine"	208.13403				4.702																																																																																	
