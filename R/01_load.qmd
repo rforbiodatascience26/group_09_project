@@ -99,11 +99,11 @@ metab_neg_raw <- read_tsv(
   show_col_types = FALSE
 )
 
-write_tsv(samples_raw, file.path(data_dir, "01_samples_load.tsv.gz"))
-write_tsv(assay_pos_raw, file.path(data_dir, "01_assay_pos_load.tsv.gz"))
-write_tsv(assay_neg_raw, file.path(data_dir, "01_assay_neg_load.tsv.gz"))
-write_tsv(metab_pos_raw, file.path(data_dir, "01_metab_pos_load.tsv.gz"))
-write_tsv(metab_neg_raw, file.path(data_dir, "01_metab_neg_load.tsv.gz"))
+write_tsv(samples_raw, file.path(data_dir, "01_samples_load.tsv"))
+write_tsv(assay_pos_raw, file.path(data_dir, "01_assay_pos_load.tsv"))
+write_tsv(assay_neg_raw, file.path(data_dir, "01_assay_neg_load.tsv"))
+write_tsv(metab_pos_raw, file.path(data_dir, "01_metab_pos_load.tsv"))
+write_tsv(metab_neg_raw, file.path(data_dir, "01_metab_neg_load.tsv"))
 ```
 
 ## Quick Inspection
