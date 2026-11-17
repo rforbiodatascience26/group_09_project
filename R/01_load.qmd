@@ -1,0 +1,131 @@
+---
+title: "01_load"
+format: html
+---
+
+Load \`tidyverse\` and resolve paths relative to the project root so the
+document renders reproducibly from either \`R/\` or the top-level directory.
+
+```{r}
+#| message: false
+#| warning: false
+
+library("tidyverse")
+
+root_dir <- if (basename(getwd()) == "R") ".." else "."
+raw_meta_dir <- file.path(root_dir, "data", "_raw", "metadata")
+raw_res_dir <- file.path(root_dir, "data", "_raw", "resultsData")
+data_dir <- file.path(root_dir, "data")
+
+dir.create(path = raw_meta_dir, recursive = TRUE, showWarnings = FALSE)
+dir.create(path = raw_res_dir, recursive = TRUE, showWarnings = FALSE)
+```
+
+## Retrieve Raw Data
+
+Verify that all ISA-Tab metadata and metabolite tables from MetaboLights
+study `MTBLS14208` are present in `data/_raw/`, downloading any missing files.
+
+```{r}
+#| message: false
+
+base_url <- str_c(
+  "[https://ftp.ebi.ac.uk/pub/databases/metabolights/](https://ftp.ebi.ac.uk/pub/databases/metabolights/)",
+  "studies/public/MTBLS14208"
+)
+
+meta_files <- c(
+  "s_MTBLS14208.txt",
+  "a_MTBLS14208_LC-MS_positive_hilic.txt",
+  "a_MTBLS14208_LC-MS_negative_hilic.txt"
+)
+
+res_files <- c(
+  "m_MTBLS14208_LC-MS_positive_hilic_v2_maf.tsv",
+  "m_MTBLS14208_LC-MS_negative_hilic_v2_maf.tsv"
+)
+
+walk(meta_files, \(f) {
+  dest <- file.path(raw_meta_dir, f)
+  if (!file.exists(dest)) {
+    download.file(url = str_c(base_url, "/", f), destfile = dest)
+  }
+})
+
+walk(res_files, \(f) {
+  dest <- file.path(raw_res_dir, f)
+  if (!file.exists(dest)) {
+    download.file(url = str_c(base_url, "/", f), destfile = dest)
+  }
+})
+```
+
+## Load and Save Raw Tables
+
+Read the raw tab-separated files and write compressed intermediate tables to
+`data/` for downstream cleaning in `02_clean.qmd`.
+
+```{r}
+#| message: false
+
+samples_raw <- read_tsv(
+  file = file.path(raw_meta_dir, "s_MTBLS14208.txt"),
+  show_col_types = FALSE
+)
+
+assay_pos_raw <- read_tsv(
+  file = file.path(raw_meta_dir, "a_MTBLS14208_LC-MS_positive_hilic.txt"),
+  show_col_types = FALSE
+)
+
+assay_neg_raw <- read_tsv(
+  file = file.path(raw_meta_dir, "a_MTBLS14208_LC-MS_negative_hilic.txt"),
+  show_col_types = FALSE
+)
+
+metab_pos_raw <- read_tsv(
+  file = file.path(
+    raw_res_dir,
+    "m_MTBLS14208_LC-MS_positive_hilic_v2_maf.tsv"
+  ),
+  show_col_types = FALSE
+)
+
+metab_neg_raw <- read_tsv(
+  file = file.path(
+    raw_res_dir,
+    "m_MTBLS14208_LC-MS_negative_hilic_v2_maf.tsv"
+  ),
+  show_col_types = FALSE
+)
+
+write_tsv(samples_raw, file.path(data_dir, "01_samples_load.tsv.gz"))
+write_tsv(assay_pos_raw, file.path(data_dir, "01_assay_pos_load.tsv.gz"))
+write_tsv(assay_neg_raw, file.path(data_dir, "01_assay_neg_load.tsv.gz"))
+write_tsv(metab_pos_raw, file.path(data_dir, "01_metab_pos_load.tsv.gz"))
+write_tsv(metab_neg_raw, file.path(data_dir, "01_metab_neg_load.tsv.gz"))
+```
+
+## Quick Inspection
+
+Check the dimensions and column names of the loaded datasets.
+
+```{r}
+tibble(
+  dataset = c(
+    "samples", "assay_pos", "assay_neg",
+    "metab_pos", "metab_neg"
+  ),
+  rows = c(
+    nrow(samples_raw), nrow(assay_pos_raw), nrow(assay_neg_raw),
+    nrow(metab_pos_raw), nrow(metab_neg_raw)
+  ),
+  cols = c(
+    ncol(samples_raw), ncol(assay_pos_raw), ncol(assay_neg_raw),
+    ncol(metab_pos_raw), ncol(metab_neg_raw)
+  )
+)
+
+colnames(samples_raw)
+colnames(metab_pos_raw)
+```
