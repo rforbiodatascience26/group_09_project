@@ -5,3 +5,26 @@ editor: visual
 ---
 
 ## Load Data
+
+```{r}
+#| label: libraries
+#| echo: FALSE
+
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")}
+
+BiocManager::install("GEOquery")
+
+library(GEOquery)
+```
+
+```{r}
+#| label: load data from GSE-website
+
+GSE24504_raw <- getGEO("GSE24504", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
+dim(GSE24504_raw)
+
+expression <- Biobase::exprs(GSE24504_raw)
+samples <- Biobase::pData(GSE24504_raw)
+probes <- Biobase::fData(GSE24504_raw)
+```
