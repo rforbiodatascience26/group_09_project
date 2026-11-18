@@ -16,6 +16,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 BiocManager::install("GEOquery")
 
 library(GEOquery)
+library(tidyverse)
 ```
 
 ```{r}
@@ -24,7 +25,5 @@ library(GEOquery)
 GSE24504_raw <- getGEO("GSE24504", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
 dim(GSE24504_raw)
 
-expression <- Biobase::exprs(GSE24504_raw)
-samples <- Biobase::pData(GSE24504_raw)
-probes <- Biobase::fData(GSE24504_raw)
+
 ```
