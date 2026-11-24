@@ -75,4 +75,94 @@ write.table(
 )
 ```
 
-\
+### Update the labels
+
+```{r}
+#| label: loading packages
+
+# Install Bioconductor packages (run only once)
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+
+BiocManager::install(c("org.Mm.eg.db", "AnnotationDbi"))
+```
+
+```{r}
+#| label: updating annotations
+
+#load packages
+library(dplyr)
+library(AnnotationDbi)
+library(org.Mm.eg.db)
+
+
+#| label: update annotations
+
+# 1. Prepare accession numbers
+genes_to_update <- genes %>%
+  mutate(
+    GB_ACC_clean = sub("\\.[0-9]+$", "", as.character(GB_ACC))
+  )
+
+# 2. Get unique accessions
+accessions <- unique(na.omit(genes_to_update$GB_ACC_clean))
+accessions <- accessions[accessions != ""]
+
+# 3. Retrieve annotations using RefSeq
+annotation_raw <- AnnotationDbi::select(
+  org.Mm.eg.db,
+  keys = accessions,
+  keytype = "REFSEQ",
+  columns = c("ENTREZID", "SYMBOL", "GENENAME")
+)
+
+# 4. Summarize annotations
+get_unique <- function(x) {
+  x <- unique(na.omit(as.character(x)))
+  if (length(x) == 1) x else NA_character_
+}
+
+annotation_summary <- annotation_raw %>%
+  dplyr::group_by(.data[["REFSEQ"]]) %>%
+  dplyr::summarise(
+    ENTREZ_ID_new = get_unique(ENTREZID),
+    SYMBOL_new = get_unique(SYMBOL),
+    GENENAME_new = get_unique(GENENAME),
+    n_entrez = dplyr::n_distinct(na.omit(ENTREZID)),
+    .groups = "drop"
+  ) %>%
+  dplyr::rename(GB_ACC_clean = REFSEQ)
+
+# 5. Join with original data
+genes_updated <- genes_to_update %>%
+  left_join(annotation_summary, by = "GB_ACC_clean")
+
+# 6. Create updated annotation columns
+genes_updated <- genes_updated %>%
+  mutate(
+    ENTREZ_ID_updated = coalesce(ENTREZ_ID_new, as.character(ENTREZ_ID)),
+    SYMBOL_updated = coalesce(SYMBOL_new, as.character(SYMBOL)),
+    GENENAME_updated = coalesce(GENENAME_new, as.character(GENENAME))
+  )
+
+#tidy the data
+genes_updated <- genes_updated %>%
+  mutate(
+    ENTREZ_ID = coalesce(ENTREZ_ID_new, as.character(ENTREZ_ID)),
+    SYMBOL = coalesce(SYMBOL_new, as.character(SYMBOL)),
+    GENENAME = coalesce(GENENAME_new, as.character(GENENAME))
+  ) %>%
+  dplyr::select(
+    -GB_ACC_clean,
+    -ENTREZ_ID_new,
+    -SYMBOL_new,
+    -GENENAME_new,
+    -n_entrez,
+    -ENTREZ_ID_updated,
+    -SYMBOL_updated,
+    -GENENAME_updated
+  )
+```
+
+###  
