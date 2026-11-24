@@ -1,0 +1,38 @@
+---
+title: "Final presentation"
+author: "Group 9"
+format: 
+  revealjs:
+    footer: "Names of everyone"
+    theme: dark
+    transition: fade
+editor: visual
+---
+
+## Introduction
+
+Description of the dataset and what we are trying to achieve
+
+## Materials and methods: Materials
+
+Description of where we got the dataset
+
+## Materials and methods: Methods 1
+
+Explanation of the data tidying and analysis
+
+## Materials and methods: Methods 2
+
+Processing of data and a brief note on organisation
+
+## Results and discussion
+
+Graphs and results; explain what was found
+
+## Major findings
+
+Summary of the important things found
+
+## Conclusion
+
+Brief conclusion, detailing what was found from the dataset and our knowledge on R
