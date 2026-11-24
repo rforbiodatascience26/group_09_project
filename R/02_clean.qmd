@@ -59,5 +59,10 @@ expression_long <- expression_entrezid |>
 ```{r}
 #| label: join for final dataframe
 
-dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession")
+dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession") 
+
+dat_avg <- dat_clean_long |>
+  filter(!is.na(ENTREZ_ID)) |>
+  group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
+  summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
 ```
