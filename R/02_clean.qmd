@@ -63,7 +63,6 @@ dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession"
 
 ```{r}
 
-{r}
 #| label: first overviews
 
 dat_clean |> 
