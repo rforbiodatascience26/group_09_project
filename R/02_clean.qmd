@@ -61,16 +61,3 @@ expression_long <- expression_entrezid |>
 
 dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession")
 ```
-
-```{r}
-#| label: first overviews
-
-dat_clean_long |> 
-  filter(tissue == "muscle") |> 
-  filter(ma_probe == "1" | ma_probe == "2" | ma_probe == "3") |> 
-  ggplot(mapping = aes(x = timepoint, y = expression,
-                       colour = ma_probe)) +
-  geom_point() +
-  geom_smooth(method = "lm")
-
-```
