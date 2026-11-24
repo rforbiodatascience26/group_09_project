@@ -65,4 +65,12 @@ dat_avg <- dat_clean_long |>
   filter(!is.na(ENTREZ_ID)) |>
   group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
   summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
+
+write.table(
+  x = dat_avg,
+  file = "../data/data_aug",
+  sep = "\t"
+)
 ```
+
+\
