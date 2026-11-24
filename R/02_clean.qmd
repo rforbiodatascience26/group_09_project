@@ -66,6 +66,7 @@ dat_avg <- dat_clean_long |>
   group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
   summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
 
+dir.create("data")
 write.table(
   x = dat_avg,
   file = "../data/data_aug",
