@@ -22,6 +22,8 @@ library(tidyverse)
 ```{r}
 #| label: load data from GSE-website
 
+options(timeout = 600)
+
 GSE24504_raw <- getGEO("GSE24504", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
 dim(GSE24504_raw)
 
