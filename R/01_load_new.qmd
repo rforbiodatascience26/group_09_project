@@ -27,5 +27,5 @@ options(timeout = 600)
 GSE24504_raw <- getGEO("GSE24504", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
 dim(GSE24504_raw)
 
-
+write.table(x = GSE24504_raw, file = "../_raw/GSE24504_raw", sep = "\t")
 ```
