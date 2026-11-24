@@ -25,5 +25,5 @@ library(tidyverse)
 GSE24504_raw <- getGEO("GSE24504", GSEMatrix = TRUE, getGPL = FALSE)[[1]]
 dim(GSE24504_raw)
 
-
+write.table(x = datasets::Puromycin, file = "data/GSE24504_raw", sep = "\t")
 ```
