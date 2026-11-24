@@ -37,6 +37,8 @@ samples_clean <- samples |>
          tissue = `tissue:ch1`)
 
 
+
+
 expression_flip <- expression |> 
   as.data.frame() |> 
   t() |> 
@@ -48,10 +50,22 @@ dat_clean <- full_join(samples_clean, expression_flip, by = "geo_accession")
 ```
 
 ```{r}
-expression_long <- expression |>
+
+expression_entrezid <- expression |> 
+  as.data.frame() |> 
+  tibble::rownames_to_column(var = "ID") |> 
+  full_join(genes |> 
+              dplyr::mutate(ID = as.character(ID)) |> 
+              select(ENTREZ_ID, ID, FLAG),
+            by = "ID") |> 
+  dplyr::relocate(ENTREZ_ID, FLAG, .before = 1) |> 
+  filter(FLAG == "0") |> 
+  select(-ID, -FLAG)
+
+
+expression_long <- expression_entrezid |>
   as.data.frame() |>
-  rownames_to_column("ma_probe") |> 
-  pivot_longer(cols = -ma_probe, 
+  pivot_longer(cols = -ENTREZ_ID, 
                names_to = "geo_accession", 
                values_to = "expression")
 
