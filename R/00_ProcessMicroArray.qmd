@@ -1,0 +1,13 @@
+Load the Data
+
+```{r}
+library(GEOquery)
+
+GPL11012 <- getGEO("GPL11012")
+
+annotation <- Table(GPL11012)
+
+head(annotation)
+dim(annotation)
+
+```
