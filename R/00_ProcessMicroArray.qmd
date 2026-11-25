@@ -27,7 +27,6 @@ GPL11012 <- getGEO("GPL11012")
 annotation <- Table(GPL11012)
 dim(annotation)
 
-
 #Download the supplementary raw microarray data files to process (tar file)
 download.file(
   url = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24504/suppl/GSE24504_RAW.tar",
@@ -39,6 +38,7 @@ untar(
   tarfile = "../_raw/GSE24504_RAW.tar",
   exdir = "../_raw/GSE24504"
 )
+
 ```
 
 
@@ -455,7 +455,18 @@ MA <- RG_corrected |>
     bc.method = "none"
   )
 
-
+MAplotData <- bind_rows(
+  tibble(
+    M = MA_before$M[, 1],
+    A = MA_before$A[, 1],
+    Processing = "Before"
+  ),
+  tibble(
+    M = MA$M[, 1],
+    A = MA$A[, 1],
+    Processing = "After"
+  )
+)
 
 MAplotData |>
   mutate(
