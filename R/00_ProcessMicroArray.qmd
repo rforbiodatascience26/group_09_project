@@ -507,7 +507,12 @@ expressionMatrix <- -MA$M
 
 rownames(expressionMatrix) <- MA$genes$ID
 
-dim(expressionMatrix)
+expressionMatrix <- expressionMatrix |>
+  data.frame() |> 
+  arrange(as.numeric(rownames(expressionMatrix))) |> 
+  as.matrix()
+
+dim(expressionMatrix) 
 
 expressionMatrix[1:5, 1:5]
 ```
@@ -526,11 +531,6 @@ stopifnot(
   all(colnames(expressionMatrix) %in%
         colnames(publishedExpression))
 )
-
-publishedExpression <- publishedExpression[
-  rownames(expressionMatrix),
-  colnames(expressionMatrix)
-]
 
 validation <- tibble(
   SampleID = colnames(expressionMatrix),
@@ -564,7 +564,6 @@ tibble(
     color = "red"
   ) +
   theme_minimal()
-
 
 ```
 
