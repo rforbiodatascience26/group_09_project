@@ -214,7 +214,7 @@ RG <- new(
     )
   )
 )
-
+#They are inserted to every data table in the limma data structure
 rownames(RG) <- spotLabels
 colnames(RG) <- sampleIDs
 
@@ -229,6 +229,8 @@ dim(RG)
 
 #| label: inspect-annotation
 
+#We want to use the annotation becuase we will later want to distinguish
+#the control probes for normalization purposes
 annotation <- annotation |>
   as_tibble()
 
@@ -246,82 +248,7 @@ annotationPrepared <- spotTable |>
 #Put the gene annotation into the data object
 RG$genes <- as.data.frame(annotationPrepared)
 
-
 ```
-
-
-
-```{r}
-GSE24504 <- getGEO("GSE24504")
-
-#Here we have the metadata to match our data using the GeoAccession and know which 
-#sample is that column from...
-metadata <- pData(GSE24504[[1]]) |>
-  as_tibble()
-
-glimpse(metadata)
-colnames(metadata)
-
-
-#Don't have duplicates and also check if sample IDs used to create the microarray data object
-#are all in the metadata
-stopifnot(
-  !anyDuplicated(metadata$geo_accession),
-  all(sampleIDs %in% metadata$geo_accession)
-)
-
-#Construct table to align the metadata
-metadataAligned <- tibble(
-  SampleID = sampleIDs,
-  FileName = basename(rawFiles)
-)
-#Join everything into a single ordered table 
-metadataAligned <- metadataAligned |>
-  left_join(
-    metadata,
-    by = c("SampleID" = "geo_accession")
-  )
-
-#Now we have exactly in the same order the metadata and the RG array data
-stopifnot(
-  identical(
-    metadataAligned$SampleID,
-    colnames(RG)
-  )
-)
-
-#Improve you metadata labels
-metadataAligned <- metadataAligned |>
-  select(
-    SampleID,
-    FileName,
-    Tissue = `tissue:ch1`,
-    FastingHours = `timepoint:ch1`,
-    Mouse = `mouse:ch1`,
-    Strain = `strain:ch1`
-  ) |>
-  mutate(
-    FastingHours = as.integer(FastingHours),
-    Mouse = as.integer(Mouse)
-  )
-
-head(metadataAligned)
-
-#Get you experimental design
-metadataAligned |>
-  count(Tissue, FastingHours) |>
-  pivot_wider(
-    names_from = FastingHours,
-    values_from = n
-  )
-
-#Store metadata in array object
-RG$targets <- as.data.frame(metadataAligned)
-
-colnames(RG) <- metadataAligned$SampleID
-```
-
-
 
 
 
@@ -333,6 +260,9 @@ colnames(RG) <- metadataAligned$SampleID
 par(mfrow = c(2, 1),
     mar = c(2, 4, 3, 1))
 
+#Quality Check...
+#Boxplots representing the distribution of the raw microarray flouresent signals
+#We use this boxplots and not ggplot because it is the standard
 boxplot(
   log2(RG$G + 1),
   main = "Green foreground intensities",
@@ -345,13 +275,15 @@ boxplot(
 boxplot(
   log2(RG$R + 1),
   main = "Red foreground intensities",
-  col = "salmon",
+  col = "red",
   outline = FALSE,
   xaxt = "n",
   ylab = "Log2 intensity"
 )
 
 par(mfrow = c(1, 1))
+
+
 ```
 
 
@@ -359,20 +291,17 @@ par(mfrow = c(1, 1))
 ```{r}
 #| label: background-correction
 
-#Correct for the background noice using normexp (authors did the same)
+#Correct for the background noise using normexp (authors did the same)
+#Can manage background higher than measurment... uses normal distribution to model noice
 RG_corrected <- RG |>
   backgroundCorrect(
     method = "normexp",
     offset = 0
   )
 
+#Checks that no negative signal is present
 sum(RG_corrected$G <= 0, na.rm = TRUE)
-
 sum(RG_corrected$R <= 0, na.rm = TRUE)
-
-summary(as.vector(RG_corrected$G))
-
-summary(as.vector(RG_corrected$R))
 ```
 
 Normalization:
@@ -398,11 +327,13 @@ probeLayout <- RG_corrected$genes |>
 
 head(probeLayout)
 
-#Obtain the order of the spots because we need to give them to limma in a certain order
+#Obtain the order of the spots because we need to give them to limma in a certain order:
+#Spots were sorted by grid row, grid column, and spot number to group 
+#each print-tip's 945 spots consecutively.
+
 spotOrder <- probeLayout |>
-  mutate(OriginalRow = row_number()) |>
   arrange(GridRow, GridCol, SpotNumber) |>
-  pull(OriginalRow)
+  pull(ID)
 
 #This simultaneously reorders the fluorescence matrices and the gene annotation.
 #We do it directly on the object
@@ -417,7 +348,7 @@ printLayout <- list(
 )
 
 #Authors  excluded control probes from the normalization so we assign weights
-
+#to use later
 normalizationWeights <- if_else(
   RG_corrected$genes$FLAG == 0,
   1,
@@ -426,27 +357,15 @@ normalizationWeights <- if_else(
 normalizationWeights[1:20]
 
 
-
+#We don't normalize, but use it to obtain the values to compare with normalized.
+#M is log2 ratio and A is average intensity
 MA_before <- RG_corrected |>
   normalizeWithinArrays(
     method = "none",
     bc.method = "none"
   )
 
-
-tibble(
-  M = MA_before$M[, 1],
-  A = MA_before$A[, 1]
-) |>
-  ggplot(aes(x = A, y = M)) +
-  geom_point(alpha = 0.15, size = 0.5) +
-  geom_hline(yintercept = 0, color = "red") +
-  labs(title = "Before normalization") +
-  theme_minimal()
-
-
-
-
+#Here we do the print tip loess normalization... and obtain M and A values
 MA <- RG_corrected |>
   normalizeWithinArrays(
     layout = printLayout,
@@ -455,6 +374,7 @@ MA <- RG_corrected |>
     bc.method = "none"
   )
 
+#Merge the two data sets (before and after) for subsequent graph comparison...
 MAplotData <- bind_rows(
   tibble(
     M = MA_before$M[, 1],
@@ -468,13 +388,14 @@ MAplotData <- bind_rows(
   )
 )
 
+#Plot both graphs side by side
 MAplotData |>
   mutate(
     Processing = factor(
       Processing,
       levels = c("Before", "After")
     ),
-    FLAG = rep(MA$genes$FLAG, 2)
+    FLAG = rep(MA$genes$FLAG, 2)#Put the FLAG vector two times to fill the table...and remove control values in plot
   ) |>
   filter(FLAG == 0) |>
   ggplot(aes(x = A, y = M)) +
@@ -489,12 +410,6 @@ MAplotData |>
   facet_wrap(~ Processing) +
   theme_minimal()
 
-class(MA)
-
-names(MA)
-
-dim(MA$M)
-
 
 ```
 
@@ -503,35 +418,51 @@ dim(MA$M)
 
 #OBTAIN THE EXPRESSION MATRIX
 
+#The authors had discrepancies in their labels between the the G and the R
+#so we capture the log2FoldChange and invert it to get the right values...
+dim(MA$M)
 expressionMatrix <- -MA$M
 
+#We label the expression accordingly... to the ID (it was changed during 
+#normalization)
 rownames(expressionMatrix) <- MA$genes$ID
 
+#Here we sort it back to the original order in which it was given...
 expressionMatrix <- expressionMatrix |>
   data.frame() |> 
   arrange(as.numeric(rownames(expressionMatrix))) |> 
   as.matrix()
 
-dim(expressionMatrix) 
+#Matrix dimensions check
+dim(expressionMatrix)
 
-expressionMatrix[1:5, 1:5]
+write.csv(
+  expressionMatrix,
+  file = "../_raw/OURmicroarrayData.csv",
+  row.names = TRUE
+)
+
 ```
 
 ```{r}
 #COMPRARE TO THEIR RESULTS
-
-
+GSE24504 <- getGEO("GSE24504")
 publishedExpression <- exprs(GSE24504[[1]])
 
 
+#Verify same rows and columns
 stopifnot(
-  all(rownames(expressionMatrix) %in%
+  all(rownames(expressionMatrix) ==
         rownames(publishedExpression)),
 
-  all(colnames(expressionMatrix) %in%
+  all(colnames(expressionMatrix) ==
         colnames(publishedExpression))
 )
 
+#We make a tibble that one column is the SampleID (122 samples)
+#The other column is their correlation coefficient... so we isolate column
+#by column (each sample) and compare with the same sample foldchange values
+#and calculate the correlation between samples....
 validation <- tibble(
   SampleID = colnames(expressionMatrix),
 
@@ -539,19 +470,23 @@ validation <- tibble(
     seq_len(ncol(expressionMatrix)),
     ~ cor(
       expressionMatrix[, .x],
-      publishedExpression[, .x],
-      use = "complete.obs"
+      publishedExpression[, .x]
     )
   )
 )
 
+#Summary of the data... (very high mean and median)
 summary(validation$Correlation)
 
+#We do a histogran to see how our data is distributed
 validation |>
   ggplot(aes(x = Correlation)) +
   geom_histogram(bins = 20) +
   theme_minimal()
 
+#Finally... we compare all the expression values of only the first sample...
+#and we can see that their pearson correlation is probably close to 1. 
+#It means that the values highly resemble the other data...
 tibble(
   Ours = expressionMatrix[, 1],
   Published = publishedExpression[, 1]
