@@ -35,4 +35,4 @@ Summary of the important things found
 
 ## Conclusion
 
-Brief conclusion, detailing what was found from the dataset and our knowledge on R
+Brief conclusion, detailing what was found from the dataset and our knowledge of R
