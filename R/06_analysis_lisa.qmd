@@ -5,3 +5,76 @@ editor: visual
 ---
 
 ## Analysis
+
+```{r}
+#| label: first overview
+
+# import data from data folder
+data_aug <- read.table("../data/data_aug")
+
+  
+# absolute of expression of all the genes over time VIOLIN
+data_aug |> 
+  mutate(timepoint = as.factor(timepoint)) |> 
+  ggplot(mapping = aes(x = timepoint,
+                      y = expression)) +
+  geom_violin(
+    colour = "orange2") +
+  #coord_cartesian(ylim = c(-2, 2)) +
+  theme_minimal()
+
+
+# overview of mu
+data_aug |> 
+  group_by(timepoint) |>
+  mutate(expression_abs = abs(expression)) |> 
+  summarise(expression_abs_mu = mean(expression_abs))
+
+# how many genes were expressed differently with significance
+dat_aug |> 
+  mutate()
+  group_by(gene) |> 
+  mutate(
+    model_object = map(.x = data, 
+                       #to what existing (nested) variable are we mapping?
+                       .f = ~lm(
+                         formula = log_2_expr_level ~ early_metastasis,
+                         data = .x))) |>  
+                       #which function do we want to map to each element 
+                       # in the existing (nested) variable? For each data 
+                       # frame, it fits the linear model)
+  mutate(
+    model_object_tidy = map(.x = model_object,
+                            .f = ~tidy(.x,
+                                       conf.int = TRUE,
+                                       conf.level = 0.95)))
+
+```
+
+```{r}
+#| label: unused plots
+
+# absolute of expression of all the genes over time BOXPLOT
+data_aug |> 
+  mutate(timepoint = as.factor(timepoint),
+         expression_abs = abs(expression)) |> 
+  ggplot(mapping = aes(x = timepoint,
+                      y = expression_abs)) +
+  geom_boxplot(
+    colour = "black",
+    fill = "orchid3") +
+  coord_cartesian(ylim = c(-2, 2)) +
+  theme_minimal()
+
+
+# absolute of expression of all the genes over time JITTER
+data_aug |> 
+  mutate(expression_abs = abs(expression)) |> 
+  ggplot(mapping = aes(x = timepoint,
+                       y = expression_abs)) +
+  geom_jitter(colour = "lightblue3") +
+  stat_summary(
+    fun = mean) +
+  #geom_line() +
+  theme_minimal()
+```
