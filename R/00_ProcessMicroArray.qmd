@@ -6,180 +6,26 @@ Load Packages
 
 library(GEOquery)
 library(tidyverse)
-BiocManager::install("limma")
+if (!requireNamespace("limma", quietly = TRUE)) {
+  install.packages("limma")}
 library(limma)
 
 ```
 
-Load the Data
-
 ```{r}
-
-#| label: AccessData
-#| echo: False
-
-options(timeout = 600)
-
-#Retrieves the MicroArray Device information data from NCBI GEO 
-GPL11012 <- getGEO("GPL11012")
-
-#Extracts tabular data (microarray annotation table)
-annotation <- Table(GPL11012)
-dim(annotation)
-
-#Download the supplementary raw microarray data files to process (tar file)
-download.file(
-  url = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24504/suppl/GSE24504_RAW.tar",
-  destfile = "../_raw/GSE24504_RAW.tar",
-  mode = "wb"
-)
-
-untar(
-  tarfile = "../_raw/GSE24504_RAW.tar",
-  exdir = "../_raw/GSE24504"
-)
 
 ```
 
-
-
-```{r}
-
-# Retrieve the paths of the microarray files
-rawFiles <- list.files(
-  path = "../_raw/GSE24504",
-  pattern = "\\.txt\\.gz$",
-  full.names = TRUE
-)
-
-length(rawFiles)
-head(rawFiles)
-
-View(len)
-```
-```{r}
-#| label: inspect_single_array
-
-#Read and inspect the microarray file structure
-rawArray <- read_tsv(
-  rawFiles[1],
-  skip = 1
-)
-
-dim(rawArray)
-head(rawArray)
-colnames(rawArray)
-
-#We identify the columns that we are interested (intensity and backrgound intensity 
-#and test it on the 1st one.
-testArray <- rawArray |>
-  select(
-    Spot = 1,
-    G = 2,
-    Gb = 5,
-    R = 12,
-    Rb = 17
-  ) |>
-  mutate(
-    Spot = str_squish(Spot)
-  )
-head(testArray)
-
-
-#See if all files have identical column structures...
-
-allHeaders <- rawFiles |>
-  map(function(file) {
-    #Read the first two lines from each file
-    headers <- read_lines(file, n_max = 2)
-
-    tibble(
-      Channel = str_extract(str_split(headers[1], "\t")[[1]], "Green$|Red$"), #We only extract if green or red columns
-      Parameter = str_split(headers[2], "\t")[[1]]  #Here you extract the parameter names of each column  
-    )
-  })
-
-allHeaders |>   #Then you simply compare the 1st element in the list of tibbles with all the other tibbles.
-  map_lgl(~ identical(.x, allHeaders[[1]])) |>
-  table()
-
-#Return TRUE if all headers are identical
+```         
 ```
 
 ```{r}
-#| label: define-array-reader
-
-#Read each array file and extract the important columns to us
-readArray <- function(file) {
-
-  read_tsv(
-    file,
-    skip = 1
-  ) |>
-    select(
-      Spot = 1,
-      G = 2,
-      Gb = 5,
-      R = 12,
-      Rb = 17
-    ) |>
-    mutate(
-      Spot = str_squish(Spot)
-    )
-}
-#Test function on 1 file
-testArray <- readArray(rawFiles[1])
-head(testArray)
-dim(testArray)
-
-#Apply the function on all files and obtain a list of tibbles
-arrayList <- rawFiles |>
-  map(readArray)
-length(arrayList)
 
 
 ```
 
 ```{r}
-
-#| label: extract-sample-identifiers
-
-#Obatain the sample IDs
-sampleIDs <- rawFiles |>
-  basename() |>#Rmvs all the path untile filename
-  str_extract("GSM[0-9]+")
-
-#Verify there are no duplicates
-stopifnot(
-  !anyNA(sampleIDs),
-  !anyDuplicated(sampleIDs)
-)
-
-#Identify all of your tibbles with a name
-arrayList <- arrayList |>
-  set_names(sampleIDs)
-head(names(arrayList))
 ```
-
-```{r}
-#Verify that there are no spots repeated so that you can combine the tables
-spotLabels <- arrayList[[1]] |>
-  pull(Spot)
-
-stopifnot(
-  !anyDuplicated(spotLabels),
-  !anyNA(spotLabels)
-)
-#Also check if they are in the same order or not
-sameOrder <- arrayList |>
-  map_lgl(
-    ~ identical(.x$Spot, spotLabels)
-  )
-
-table(sameOrder)
-```
-
-
 
 ```{r}
 
@@ -223,15 +69,13 @@ dim(RG)
 
 ```
 
-
-
 ```{r}
 
 #| label: inspect-annotation
 
 #We want to use the annotation becuase we will later want to distinguish
 #the control probes for normalization purposes
-annotation <- annotation |>
+annotation <- read_tsv(file = "../data/_raw/annotation.tsv") |> 
   as_tibble()
 
 #See the annotation table
@@ -240,7 +84,7 @@ colnames(annotation)
 head(annotation)
 stopifnot(all(spotLabels %in% annotation$SPOT_LABELS))
 
-#Standarize the annotation table with the right spotLabels title and stuff
+#Standarize the annotation table with the right spotLabels title
 spotTable <- tibble(Spot = spotLabels)
 annotationPrepared <- spotTable |>
   left_join(annotation, by = c("Spot" = "SPOT_LABELS"))
@@ -249,8 +93,6 @@ annotationPrepared <- spotTable |>
 RG$genes <- as.data.frame(annotationPrepared)
 
 ```
-
-
 
 ```{r}
 #| label: raw-intensity-boxplots
@@ -286,13 +128,12 @@ par(mfrow = c(1, 1))
 
 ```
 
-
-
 ```{r}
 #| label: background-correction
+#| message: FALSE
 
 #Correct for the background noise using normexp (authors did the same)
-#Can manage background higher than measurment... uses normal distribution to model noice
+#Can manage background higher than measurment... uses normal distribution to model noise
 RG_corrected <- RG |>
   backgroundCorrect(
     method = "normexp",
@@ -413,7 +254,6 @@ MAplotData |>
 
 ```
 
-
 ```{r}
 
 #OBTAIN THE EXPRESSION MATRIX
@@ -501,9 +341,3 @@ tibble(
   theme_minimal()
 
 ```
-
-
-
-
-
-

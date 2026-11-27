@@ -1,0 +1,48 @@
+---
+title: "01_load_new"
+format: html
+editor: visual
+---
+
+## Load Data
+
+```{r}
+#| label: libraries
+#| message: FALSE
+
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")}
+
+if (!requireNamespace("GEOquery", quietly = TRUE)) {
+  BiocManager::install("GEOquery")}
+
+library(GEOquery)
+library(tidyverse)
+```
+
+```{r}
+#| label: AccessData
+#| echo: FALSE
+
+options(timeout = 600)
+
+#Retrieves the MicroArray Device information data from NCBI GEO 
+GPL11012 <- getGEO("GPL11012")
+
+#Extracts tabular data (microarray annotation table)
+annotation <- Table(GPL11012)
+dim(annotation)
+
+#Download the supplementary raw microarray data files to process (tar file)
+download.file(
+  url = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24504/suppl/GSE24504_RAW.tar",
+  destfile = "../data/_raw/GSE24504_RAW.tar",
+  mode = "wb"
+)
+
+untar(
+  tarfile = "../data/_raw/GSE24504_RAW.tar",
+  exdir = "../data/_raw/GSE24504_RAW"
+)
+
+```
