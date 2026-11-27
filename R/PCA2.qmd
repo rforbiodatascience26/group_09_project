@@ -170,7 +170,7 @@ scores |>
 
 ```
 
-### Euclidean distances 
+### Euclidean distances
 
 How much each organ's gene expression moves from the 0h centroid at each timepoint
 
@@ -199,101 +199,4 @@ dist_df |>
        y = "Euclidean distance from 0h centroid (PC space)",
        title = "How far has each organ moved from its fed state?") +
   theme_bw()
-```
-
-Check if shift in gene expression is bigger than the normal scatter between samples
-
-```{r}
-noise_df <- scores |>
-  filter(time == 0) |>                                          # fed samples only
-  pivot_longer(all_of(pc_cols), names_to = "PC", values_to = "value") |>
-  group_by(tissue, PC) |>
-  mutate(dev = value - mean(value)) |>         # deviation from the organ's 0h centroid
-  group_by(tissue, sample) |>
-  summarise(d0 = sqrt(sum(dev^2)), .groups = "drop") |>      # each 0h sample's distance to the centroid
-  group_by(tissue) |>
-  summarise(noise = mean(d0), .groups = "drop")           # average scatter per organ
-
-# Ratio > 1 means the shift is larger than the typical scatter of the 0h samples
-dist_vs_noise <- dist_df |>
-  left_join(noise_df, by = "tissue") |>
-  mutate(ratio_to_noise = dist / noise)
-print(dist_vs_noise)
-
-```
-
-Rank each organ's shift and responsiveness
-
-```{r}
-# (a) Rank at each timepoint (1 = biggest shift = most responsive)
-ranks_by_time <- dist_df |>
-  group_by(time) |>
-  mutate(rank = rank(-dist)) |>    # minus sign so the largest distance gets rank 1
-  ungroup()
-print(ranks_by_time)
-
-# (b) Overall summary per organ
-# Helper: area under the distance-vs-time curve (trapezoid rule, starting at 0 at t = 0)
-auc_fun <- function(t, d) {
-  t <- c(0, t); d <- c(0, d)
-  sum(diff(t) * (head(d, -1) + tail(d, -1)) / 2)
-}
-
-summary_df <- dist_df |>
-  group_by(tissue) |>
-  summarise(max_dist  = max(dist),               # largest shift reached
-            mean_dist = mean(dist),              # average shift across timepoints
-            auc       = auc_fun(time, dist),     # total "response over time"
-            .groups   = "drop") |>
-  left_join(ranks_by_time |>
-              group_by(tissue) |>
-              summarise(mean_rank = mean(rank), .groups = "drop"),
-            by = "tissue") |>
-  arrange(mean_rank)                             # most responsive organ first
-print(summary_df)
-
-# SANITY CHECK vs the paper's DE gene counts: you expect roughly
-# muscle > liver > kidney > intestine > brain
-
-```
-
-Test which organ responds earlier, only timing
-
-```{r}
-# Distance tells you who moves MOST. Earliness needs the shape of the curve.
-
-# (a) Time at which an organ reaches 50% of its own maximum shift
-timing <- dist_df |>
-  group_by(tissue) |>
-  mutate(frac_of_max = dist / max(dist)) |>     # scale each organ to its own maximum (0-1)
-  summarise(time_to_50pct = min(time[frac_of_max >= 0.5]), .groups = "drop") |>
-  arrange(time_to_50pct)                         # earlier = responds earlier
-print(timing)
-
-# (b) Step size between consecutive timepoints (0->12, 12->24, 24->48, 48->72)
-step_df <- centroids |>
-  pivot_longer(all_of(pc_cols), names_to = "PC", values_to = "value") |>
-  arrange(tissue, PC, time) |>                  # make sure timepoints are in order
-  group_by(tissue, PC) |>
-  mutate(from   = lag(time),                     # the previous timepoint
-         change = value - lag(value)) |>        # movement on this PC since then
-  filter(!is.na(from)) |>                       # the first timepoint has no predecessor
-  group_by(tissue, from, to = time) |>          # one group per organ and interval
-  summarise(step_dist = sqrt(sum(change^2)),     # Euclidean distance moved in that interval
-            .groups = "drop") |>
-  mutate(hours    = to - from,             # interval length (unequal: 12, 12, 24, 24 h)
-         rate     = step_dist / hours,           # shift per hour
-         interval = factor(paste0(from, "-", to, "h"),
-                           levels = c("0-12h", "12-24h", "24-48h", "48-72h")))
-print(step_df)
-
-# Plot the rate of change: an early responder has a high rate in the first interval
-step_df |>
-  ggplot(aes(interval, rate, fill = tissue)) +
-  geom_col(position = "dodge") +
-  labs(x = "Interval", y = "Shift per hour (PC units / h)",
-       title = "When does each organ change most?") +
-  theme_bw()
-
- 
 ```
