@@ -1,13 +1,509 @@
+Load Packages
+
+```{r}
+#| label: LoadPackages
+#| echo: false
+
+library(GEOquery)
+library(tidyverse)
+BiocManager::install("limma")
+library(limma)
+
+```
+
 Load the Data
 
 ```{r}
-library(GEOquery)
 
+#| label: AccessData
+#| echo: False
+
+options(timeout = 600)
+
+#Retrieves the MicroArray Device information data from NCBI GEO 
 GPL11012 <- getGEO("GPL11012")
 
+#Extracts tabular data (microarray annotation table)
 annotation <- Table(GPL11012)
-
-head(annotation)
 dim(annotation)
 
+#Download the supplementary raw microarray data files to process (tar file)
+download.file(
+  url = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE24nnn/GSE24504/suppl/GSE24504_RAW.tar",
+  destfile = "../_raw/GSE24504_RAW.tar",
+  mode = "wb"
+)
+
+untar(
+  tarfile = "../_raw/GSE24504_RAW.tar",
+  exdir = "../_raw/GSE24504"
+)
+
 ```
+
+
+
+```{r}
+
+# Retrieve the paths of the microarray files
+rawFiles <- list.files(
+  path = "../_raw/GSE24504",
+  pattern = "\\.txt\\.gz$",
+  full.names = TRUE
+)
+
+length(rawFiles)
+head(rawFiles)
+
+View(len)
+```
+```{r}
+#| label: inspect_single_array
+
+#Read and inspect the microarray file structure
+rawArray <- read_tsv(
+  rawFiles[1],
+  skip = 1
+)
+
+dim(rawArray)
+head(rawArray)
+colnames(rawArray)
+
+#We identify the columns that we are interested (intensity and backrgound intensity 
+#and test it on the 1st one.
+testArray <- rawArray |>
+  select(
+    Spot = 1,
+    G = 2,
+    Gb = 5,
+    R = 12,
+    Rb = 17
+  ) |>
+  mutate(
+    Spot = str_squish(Spot)
+  )
+head(testArray)
+
+
+#See if all files have identical column structures...
+
+allHeaders <- rawFiles |>
+  map(function(file) {
+    #Read the first two lines from each file
+    headers <- read_lines(file, n_max = 2)
+
+    tibble(
+      Channel = str_extract(str_split(headers[1], "\t")[[1]], "Green$|Red$"), #We only extract if green or red columns
+      Parameter = str_split(headers[2], "\t")[[1]]  #Here you extract the parameter names of each column  
+    )
+  })
+
+allHeaders |>   #Then you simply compare the 1st element in the list of tibbles with all the other tibbles.
+  map_lgl(~ identical(.x, allHeaders[[1]])) |>
+  table()
+
+#Return TRUE if all headers are identical
+```
+
+```{r}
+#| label: define-array-reader
+
+#Read each array file and extract the important columns to us
+readArray <- function(file) {
+
+  read_tsv(
+    file,
+    skip = 1
+  ) |>
+    select(
+      Spot = 1,
+      G = 2,
+      Gb = 5,
+      R = 12,
+      Rb = 17
+    ) |>
+    mutate(
+      Spot = str_squish(Spot)
+    )
+}
+#Test function on 1 file
+testArray <- readArray(rawFiles[1])
+head(testArray)
+dim(testArray)
+
+#Apply the function on all files and obtain a list of tibbles
+arrayList <- rawFiles |>
+  map(readArray)
+length(arrayList)
+
+
+```
+
+```{r}
+
+#| label: extract-sample-identifiers
+
+#Obatain the sample IDs
+sampleIDs <- rawFiles |>
+  basename() |>#Rmvs all the path untile filename
+  str_extract("GSM[0-9]+")
+
+#Verify there are no duplicates
+stopifnot(
+  !anyNA(sampleIDs),
+  !anyDuplicated(sampleIDs)
+)
+
+#Identify all of your tibbles with a name
+arrayList <- arrayList |>
+  set_names(sampleIDs)
+head(names(arrayList))
+```
+
+```{r}
+#Verify that there are no spots repeated so that you can combine the tables
+spotLabels <- arrayList[[1]] |>
+  pull(Spot)
+
+stopifnot(
+  !anyDuplicated(spotLabels),
+  !anyNA(spotLabels)
+)
+#Also check if they are in the same order or not
+sameOrder <- arrayList |>
+  map_lgl(
+    ~ identical(.x$Spot, spotLabels)
+  )
+
+table(sameOrder)
+```
+
+
+
+```{r}
+
+#| label: create-intensity-matrices
+
+#Make everything for limma to process
+G_matrix <- do.call(cbind, map(arrayList, "G"))
+Gb_matrix <- do.call(cbind, map(arrayList, "Gb"))
+R_matrix <- do.call(cbind, map(arrayList, "R"))
+Rb_matrix <- do.call(cbind, map(arrayList, "Rb"))
+dim(G_matrix)
+
+
+#There were some problems with using the package directly to do this... the the 
+#matrix was construted manually... 
+
+RG <- new(
+  "RGList",
+  list(
+    R = R_matrix,
+    G = G_matrix,
+    Rb = Rb_matrix,
+    Gb = Gb_matrix,
+
+    genes = data.frame(
+      Spot = spotLabels
+    ),
+
+    targets = data.frame(
+      FileName = basename(rawFiles),
+      SampleID = sampleIDs
+    )
+  )
+)
+#They are inserted to every data table in the limma data structure
+rownames(RG) <- spotLabels
+colnames(RG) <- sampleIDs
+
+class(RG)
+dim(RG)
+
+```
+
+
+
+```{r}
+
+#| label: inspect-annotation
+
+#We want to use the annotation becuase we will later want to distinguish
+#the control probes for normalization purposes
+annotation <- annotation |>
+  as_tibble()
+
+#See the annotation table
+glimpse(annotation)
+colnames(annotation)
+head(annotation)
+stopifnot(all(spotLabels %in% annotation$SPOT_LABELS))
+
+#Standarize the annotation table with the right spotLabels title and stuff
+spotTable <- tibble(Spot = spotLabels)
+annotationPrepared <- spotTable |>
+  left_join(annotation, by = c("Spot" = "SPOT_LABELS"))
+
+#Put the gene annotation into the data object
+RG$genes <- as.data.frame(annotationPrepared)
+
+```
+
+
+
+```{r}
+#| label: raw-intensity-boxplots
+#| fig-width: 12
+#| fig-height: 7
+
+par(mfrow = c(2, 1),
+    mar = c(2, 4, 3, 1))
+
+#Quality Check...
+#Boxplots representing the distribution of the raw microarray flouresent signals
+#We use this boxplots and not ggplot because it is the standard
+boxplot(
+  log2(RG$G + 1),
+  main = "Green foreground intensities",
+  col = "lightgreen",
+  outline = FALSE,
+  xaxt = "n",
+  ylab = "Log2 intensity"
+)
+
+boxplot(
+  log2(RG$R + 1),
+  main = "Red foreground intensities",
+  col = "red",
+  outline = FALSE,
+  xaxt = "n",
+  ylab = "Log2 intensity"
+)
+
+par(mfrow = c(1, 1))
+
+
+```
+
+
+
+```{r}
+#| label: background-correction
+
+#Correct for the background noise using normexp (authors did the same)
+#Can manage background higher than measurment... uses normal distribution to model noice
+RG_corrected <- RG |>
+  backgroundCorrect(
+    method = "normexp",
+    offset = 0
+  )
+
+#Checks that no negative signal is present
+sum(RG_corrected$G <= 0, na.rm = TRUE)
+sum(RG_corrected$R <= 0, na.rm = TRUE)
+```
+
+Normalization:
+
+```{r}
+
+#| label: extract-grid-layout
+
+#The authors performed a "print-tip LOESS normalization" which is a normalization
+#To determine how the print tip and location affected the measure so it is a 
+#physical normalization procedure...
+
+#Extract the location using regular expressions
+probeLayout <- RG_corrected$genes |>
+  as_tibble() |>
+  extract(
+    Spot,
+    into = c("GridRow", "GridCol", "SpotNumber"),
+    regex = "R(\\d+)\\s*-\\s*C(\\d+)\\s*:\\s*(\\d+)",
+    remove = FALSE,
+    convert = TRUE
+  )
+
+head(probeLayout)
+
+#Obtain the order of the spots because we need to give them to limma in a certain order:
+#Spots were sorted by grid row, grid column, and spot number to group 
+#each print-tip's 945 spots consecutively.
+
+spotOrder <- probeLayout |>
+  arrange(GridRow, GridCol, SpotNumber) |>
+  pull(ID)
+
+#This simultaneously reorders the fluorescence matrices and the gene annotation.
+#We do it directly on the object
+RG_corrected <- RG_corrected[spotOrder, ]
+
+#Internal dimensions of 21 × 45, 2 columns, 12 rows
+printLayout <- list(
+  ngrid.r = 12,
+  ngrid.c = 2,
+  nspot.r = 21,
+  nspot.c = 45
+)
+
+#Authors  excluded control probes from the normalization so we assign weights
+#to use later
+normalizationWeights <- if_else(
+  RG_corrected$genes$FLAG == 0,
+  1,
+  0
+)
+normalizationWeights[1:20]
+
+
+#We don't normalize, but use it to obtain the values to compare with normalized.
+#M is log2 ratio and A is average intensity
+MA_before <- RG_corrected |>
+  normalizeWithinArrays(
+    method = "none",
+    bc.method = "none"
+  )
+
+#Here we do the print tip loess normalization... and obtain M and A values
+MA <- RG_corrected |>
+  normalizeWithinArrays(
+    layout = printLayout,
+    method = "printtiploess",
+    weights = normalizationWeights,
+    bc.method = "none"
+  )
+
+#Merge the two data sets (before and after) for subsequent graph comparison...
+MAplotData <- bind_rows(
+  tibble(
+    M = MA_before$M[, 1],
+    A = MA_before$A[, 1],
+    Processing = "Before"
+  ),
+  tibble(
+    M = MA$M[, 1],
+    A = MA$A[, 1],
+    Processing = "After"
+  )
+)
+
+#Plot both graphs side by side
+MAplotData |>
+  mutate(
+    Processing = factor(
+      Processing,
+      levels = c("Before", "After")
+    ),
+    FLAG = rep(MA$genes$FLAG, 2)#Put the FLAG vector two times to fill the table...and remove control values in plot
+  ) |>
+  filter(FLAG == 0) |>
+  ggplot(aes(x = A, y = M)) +
+  geom_point(alpha = 0.15, size = 0.5) +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_smooth(
+    method = "loess",
+    formula = y ~ x,
+    color = "blue",
+    se = FALSE
+  ) +
+  facet_wrap(~ Processing) +
+  theme_minimal()
+
+
+```
+
+
+```{r}
+
+#OBTAIN THE EXPRESSION MATRIX
+
+#The authors had discrepancies in their labels between the the G and the R
+#so we capture the log2FoldChange and invert it to get the right values...
+dim(MA$M)
+expressionMatrix <- -MA$M
+
+#We label the expression accordingly... to the ID (it was changed during 
+#normalization)
+rownames(expressionMatrix) <- MA$genes$ID
+
+#Here we sort it back to the original order in which it was given...
+expressionMatrix <- expressionMatrix |>
+  data.frame() |> 
+  arrange(as.numeric(rownames(expressionMatrix))) |> 
+  as.matrix()
+
+#Matrix dimensions check
+dim(expressionMatrix)
+
+write.csv(
+  expressionMatrix,
+  file = "../_raw/OURmicroarrayData.csv",
+  row.names = TRUE
+)
+
+```
+
+```{r}
+#COMPRARE TO THEIR RESULTS
+GSE24504 <- getGEO("GSE24504")
+publishedExpression <- exprs(GSE24504[[1]])
+
+
+#Verify same rows and columns
+stopifnot(
+  all(rownames(expressionMatrix) ==
+        rownames(publishedExpression)),
+
+  all(colnames(expressionMatrix) ==
+        colnames(publishedExpression))
+)
+
+#We make a tibble that one column is the SampleID (122 samples)
+#The other column is their correlation coefficient... so we isolate column
+#by column (each sample) and compare with the same sample foldchange values
+#and calculate the correlation between samples....
+validation <- tibble(
+  SampleID = colnames(expressionMatrix),
+
+  Correlation = map_dbl(
+    seq_len(ncol(expressionMatrix)),
+    ~ cor(
+      expressionMatrix[, .x],
+      publishedExpression[, .x]
+    )
+  )
+)
+
+#Summary of the data... (very high mean and median)
+summary(validation$Correlation)
+
+#We do a histogran to see how our data is distributed
+validation |>
+  ggplot(aes(x = Correlation)) +
+  geom_histogram(bins = 20) +
+  theme_minimal()
+
+#Finally... we compare all the expression values of only the first sample...
+#and we can see that their pearson correlation is probably close to 1. 
+#It means that the values highly resemble the other data...
+tibble(
+  Ours = expressionMatrix[, 1],
+  Published = publishedExpression[, 1]
+) |>
+  ggplot(aes(x = Published, y = Ours)) +
+  geom_point(alpha = 0.2, size = 0.5) +
+  geom_abline(
+    slope = 1,
+    intercept = 0,
+    color = "red"
+  ) +
+  theme_minimal()
+
+```
+
+
+
+
+
+
