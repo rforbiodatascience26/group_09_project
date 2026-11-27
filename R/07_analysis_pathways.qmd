@@ -168,7 +168,7 @@ ggsave(
 
 ## Pathways change over fasting time (Top 6)
 
-Get the 6 pathways that have changes the most and see how they evolved from 12h to 72 in the 5 organs. This way we can see where do they activate/deactivate.
+Get the 6 pathways that have changed the most and see how they evolved from 0h to 72 in the 5 organs. This way we can see where do they activate/deactivate.
 
 ```{r}
 #| label: plot-kinetics
