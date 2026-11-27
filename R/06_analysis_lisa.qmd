@@ -129,5 +129,6 @@ expression_stats_heat |>
                         high = "red") +
     theme_classic()
 
-
+expression_stats_heat |> 
+  filter(ENTREZ_ID == "11303")
 ```
