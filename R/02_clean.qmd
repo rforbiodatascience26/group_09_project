@@ -1,168 +1,142 @@
 ---
 title: "02_clean"
 format: html
-editor: visual
 ---
 
-## Clean data
-
 ```{r}
-#| label: extract data
-
-expression <- Biobase::exprs(GSE24504_raw)
-# columns ("GSM60...") = samples (one sample of one organ of one mouse after one time)
-# rows (1 to 22680) = number of microarray probe
-# values = normalized log2 ratio Cy3/Cy5 (test/reference)
-
-samples <- Biobase::pData(GSE24504_raw)
-# description of the samples
-
-genes <- Biobase::fData(GSE24504_raw)
-
-
-```
-
-```{r}
-#| label: new dataframe
-
-samples_clean <- samples |> 
-  select(title, 
-         geo_accession, 
-         source_name_ch1, 
-         `mouse:ch1`,
-         `timepoint:ch1`,
-         `tissue:ch1`) |> 
-  rename(mouse = `mouse:ch1`,
-         timepoint = `timepoint:ch1`,
-         tissue = `tissue:ch1`)
-
-
-expression_entrezid <- expression |> 
-  as.data.frame() |> 
-  tibble::rownames_to_column(var = "ID") |> 
-  full_join(genes |> 
-              dplyr::mutate(ID = as.character(ID)) |> 
-              select(ENTREZ_ID, ID, FLAG),
-            by = "ID") |> 
-  dplyr::relocate(ENTREZ_ID, FLAG, .before = 1) |> 
-  filter(FLAG == "0") |> 
-  select(-ID, -FLAG)
-
-
-expression_long <- expression_entrezid |>
-  as.data.frame() |>
-  pivot_longer(cols = -ENTREZ_ID, 
-               names_to = "geo_accession", 
-               values_to = "expression")
-```
-
-```{r}
-#| label: join for final dataframe
-
-dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession") 
-
-dat_avg <- dat_clean_long |>
-  filter(!is.na(ENTREZ_ID)) |>
-  group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
-  summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
-
-dir.create("../data")
-
-write.table(
-  x = dat_avg,
-  file = "../data/data_aug",
-  sep = "\t"
+#| label: LoadPackages
+#| echo: false
+ 
+# Retrieve the paths of the microarray files
+rawFiles <- list.files(
+  path = "../data/_raw/GSE24504_RAW",
+  pattern = "\\.txt\\.gz$",
+  full.names = TRUE
 )
-```
+head(rawFiles)
 
-### Update the labels
-
-```{r}
-#| label: loading packages
-
-# Install Bioconductor packages (run only once)
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-  install.packages("BiocManager")
-}
-
-BiocManager::install(c("org.Mm.eg.db", "AnnotationDbi"))
 ```
 
 ```{r}
-#| label: updating annotations
+#| label: inspect_single_array
 
-#load packages
-library(dplyr)
-library(AnnotationDbi)
-library(org.Mm.eg.db)
-
-
-#| label: update annotations
-
-# 1. Prepare accession numbers
-genes_to_update <- genes %>%
-  mutate(
-    GB_ACC_clean = sub("\\.[0-9]+$", "", as.character(GB_ACC))
-  )
-
-# 2. Get unique accessions
-accessions <- unique(na.omit(genes_to_update$GB_ACC_clean))
-accessions <- accessions[accessions != ""]
-
-# 3. Retrieve annotations using RefSeq
-annotation_raw <- AnnotationDbi::select(
-  org.Mm.eg.db,
-  keys = accessions,
-  keytype = "REFSEQ",
-  columns = c("ENTREZID", "SYMBOL", "GENENAME")
+#Read and inspect the microarray file structure
+rawArray <- read_tsv(
+  rawFiles[1],
+  skip = 1
 )
 
-# 4. Summarize annotations
-get_unique <- function(x) {
-  x <- unique(na.omit(as.character(x)))
-  if (length(x) == 1) x else NA_character_
-}
+dim(rawArray)
+head(rawArray)
+colnames(rawArray)
 
-annotation_summary <- annotation_raw %>%
-  dplyr::group_by(.data[["REFSEQ"]]) %>%
-  dplyr::summarise(
-    ENTREZ_ID_new = get_unique(ENTREZID),
-    SYMBOL_new = get_unique(SYMBOL),
-    GENENAME_new = get_unique(GENENAME),
-    n_entrez = dplyr::n_distinct(na.omit(ENTREZID)),
-    .groups = "drop"
-  ) %>%
-  dplyr::rename(GB_ACC_clean = REFSEQ)
-
-# 5. Join with original data
-genes_updated <- genes_to_update %>%
-  left_join(annotation_summary, by = "GB_ACC_clean")
-
-# 6. Create updated annotation columns
-genes_updated <- genes_updated %>%
+#We identify the columns that we are interested (intensity and backrgound intensity 
+#and test it on the 1st one.
+testArray <- rawArray |>
+  select(
+    Spot = 1,
+    G = 2,
+    Gb = 5,
+    R = 12,
+    Rb = 17
+  ) |>
   mutate(
-    ENTREZ_ID_updated = coalesce(ENTREZ_ID_new, as.character(ENTREZ_ID)),
-    SYMBOL_updated = coalesce(SYMBOL_new, as.character(SYMBOL)),
-    GENENAME_updated = coalesce(GENENAME_new, as.character(GENENAME))
+    Spot = str_squish(Spot)
   )
-
-#tidy the data
-genes_updated <- genes_updated %>%
-  mutate(
-    ENTREZ_ID = coalesce(ENTREZ_ID_new, as.character(ENTREZ_ID)),
-    SYMBOL = coalesce(SYMBOL_new, as.character(SYMBOL)),
-    GENENAME = coalesce(GENENAME_new, as.character(GENENAME))
-  ) %>%
-  dplyr::select(
-    -GB_ACC_clean,
-    -ENTREZ_ID_new,
-    -SYMBOL_new,
-    -GENENAME_new,
-    -n_entrez,
-    -ENTREZ_ID_updated,
-    -SYMBOL_updated,
-    -GENENAME_updated
-  )
+head(testArray)
 ```
 
-###  
+IDENTICAL COLUMNS....
+
+```{r}
+#See if all files have identical column structures...
+
+allHeaders <- rawFiles |>
+  map(function(file) {
+    #Read the first two lines from each file
+    headers <- read_lines(file, n_max = 2)
+    
+    #We only extract if green or red columns
+    #Here you extract the parameter names of each column  
+    tibble(
+      Channel = str_extract(str_split(headers[1], "\t")[[1]], "Green$|Red$"), 
+      
+      Parameter = str_split(headers[2], "\t")[[1]]
+    )
+  })
+
+allHeaders |>   #Then you simply compare the 1st element in the list of tibbles with all the other tibbles.
+  map_lgl(~ identical(.x, allHeaders[[1]])) |>
+  table()
+
+#Return TRUE if all headers are identical
+```
+
+```{r}
+#| label: define-array-reader
+#| message: FALSE
+#Read each array file and extract the important columns to us
+readArray <- function(file) {
+
+  read_tsv(
+    file,
+    skip = 1
+  ) |>
+    select(
+      Spot = 1,
+      G = 2,
+      Gb = 5,
+      R = 12,
+      Rb = 17
+    ) |>
+    mutate(
+      Spot = str_squish(Spot)
+    )
+}
+
+#Apply the function on all files and obtain a list of tibbles
+arrayList <- rawFiles |>
+  map(readArray)
+length(arrayList)
+
+
+#Obatain the sample IDs
+sampleIDs <- rawFiles |>
+  basename() |>#Rmvs all the path untile filename
+  str_extract("GSM[0-9]+")
+
+#Verify there are no duplicates
+stopifnot(
+  !anyNA(sampleIDs),
+  !anyDuplicated(sampleIDs)
+)
+
+#Identify all of your tibbles with a name
+arrayList <- arrayList |>
+  set_names(sampleIDs)
+head(names(arrayList))
+
+```
+
+VERIFICATION...
+
+```{r}
+
+#Verify that there are no spots repeated so that the tables can be combined
+spotLabels <- arrayList[[1]] |>
+  pull(Spot)
+
+stopifnot(
+  !anyDuplicated(spotLabels),
+  !anyNA(spotLabels)
+)
+#Also check if they are in the same order or not
+sameOrder <- arrayList |>
+  map_lgl(
+    ~ identical(.x$Spot, spotLabels)
+  )
+
+table(sameOrder)
+
+LEFTJOINNNNN
+```
