@@ -77,6 +77,7 @@ dim(RG)
 #the control probes for normalization purposes
 annotation <- read_tsv(file = "../data/_raw/annotation.tsv") |> 
   as_tibble()
+annotation <- Table(GPL11012)
 
 #See the annotation table
 glimpse(annotation)
@@ -276,10 +277,9 @@ expressionMatrix <- expressionMatrix |>
 #Matrix dimensions check
 dim(expressionMatrix)
 
-write.csv(
-  expressionMatrix,
-  file = "../_raw/OURmicroarrayData.csv",
-  row.names = TRUE
+write_delim(
+  data.frame(expressionMatrix),
+  file = "../data/foldChangeExpression.tsv"
 )
 
 ```
