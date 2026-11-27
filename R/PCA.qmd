@@ -29,11 +29,8 @@ rownames(expr_mat) <- dat_avg_wide$title   # or geo_accession
 
 pca <- prcomp(expr_mat, scale. = TRUE)
 
-plot(pca$x[,1], pca$x[,2])
-
 pca.var <- pca$sdev^2
 pca.var.per <- round(pca.var/sum(pca.var)*100, 1)
-pca.var.per
 barplot(pca.var.per, main="Scree Plot", xlab="Principal Component",
         ylab="Percent variation")
 
