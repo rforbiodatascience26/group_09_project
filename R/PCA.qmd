@@ -1,0 +1,358 @@
+---
+title: "PCA"
+format: html
+---
+
+```{r}
+options(bitmapType = "cairo")
+dat_avg <- readRDS("../data/data_aug.rds")
+```
+
+## Make wide for PCA
+
+```{r}
+dat_avg_wide <- dat_avg |>   
+  pivot_wider(id_cols = c(title,geo_accession, mouse, timepoint, tissue),
+              names_from  = ENTREZ_ID,
+              values_from = expression
+              )
+```
+
+## PCA for all organs
+
+```{r}
+expr_mat <- dat_avg_wide |>
+  dplyr::select(-title, -geo_accession, -mouse, -timepoint, -tissue) |>
+  as.matrix()
+
+rownames(expr_mat) <- dat_avg_wide$title   # or geo_accession
+
+pca <- prcomp(expr_mat, scale. = TRUE)
+
+plot(pca$x[,1], pca$x[,2])
+
+pca.var <- pca$sdev^2
+pca.var.per <- round(pca.var/sum(pca.var)*100, 1)
+pca.var.per
+barplot(pca.var.per, main="Scree Plot", xlab="Principal Component",
+        ylab="Percent variation")
+
+
+```
+
+#### Make ggplot PCA 1 and 2
+
+```{r}
+library(ggplot2)
+pca.data <- data.frame(Sample=rownames(pca$x),
+                       X=pca$x[,1],
+                       Y=pca$x[,2],
+                       tissue = dat_avg_wide$tissue,
+                       time = dat_avg_wide$timepoint)
+ggplot(data=pca.data, aes(X, Y, label=Sample, color=tissue, shape=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC2 - ", pca.var.per[2], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My PCA graph")
+```
+
+#### Make ggplot PCA 1 and 3
+
+```{r}
+library(ggplot2)
+pca.data <- data.frame(Sample=rownames(pca$x),
+                       X=pca$x[,1],
+                       Y=pca$x[,3],
+                       tissue = dat_avg_wide$tissue,
+                       time = dat_avg_wide$timepoint)
+ggplot(data=pca.data, aes(X, Y, label=Sample, color=tissue, shape=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC3 - ", pca.var.per[3], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My PCA graph")
+```
+
+#### Make ggplot PCA 2 and 3
+
+```{r}
+library(ggplot2)
+pca.data <- data.frame(Sample=rownames(pca$x),
+                       X=pca$x[,2],
+                       Y=pca$x[,3],
+                       tissue = dat_avg_wide$tissue,
+                       time = dat_avg_wide$timepoint)
+ggplot(data=pca.data, aes(X, Y, label=Sample, color=tissue, shape=time)) +
+  geom_point() +
+  xlab(paste("PC2 - ", pca.var.per[2], "%", sep="")) + 
+  ylab(paste("PC3 - ", pca.var.per[3], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My PCA graph")
+```
+
+### Check loading scores for PC1of all organs
+
+```{r}
+loading_scores <- pca$rotation[,1]
+gene_scores <- abs(loading_scores)
+gene_scores_ranked <- sort(gene_scores, decreasing = TRUE)
+top_10_genes <- names(gene_scores_ranked[1:10])
+top_10_genes
+pca$rotation[top_10_genes,1]
+```
+
+## Per organ PCA
+
+### PCA for brain
+
+```{r}
+dat_brain <- dat_avg_wide |>
+  filter(tissue == "brain")
+
+expr_mat_brain <- dat_brain |>
+  dplyr::select(-title, -geo_accession, -mouse, -timepoint, -tissue) |>
+  as.matrix()
+
+rownames(expr_mat_brain) <- dat_brain$title   # or geo_accession
+
+pca_brain <- prcomp(expr_mat_brain, scale. = TRUE)
+
+plot(pca_brain$x[,1], pca_brain$x[,2])
+
+brain.pca.var <- pca_brain$sdev^2
+brain.pca.var.per <- round(brain.pca.var/sum(brain.pca.var)*100, 1)
+brain.pca.var.per
+barplot(brain.pca.var.per, main="Scree Plot Brain", xlab="Principal Component",
+        ylab="Percent variation")
+
+
+
+```
+
+#### ggplot brain
+
+```{r}
+library(ggplot2)
+pca.data.brain <- data.frame(Sample=rownames(pca_brain$x),
+                       X=pca_brain$x[,1],
+                       Y=pca_brain$x[,2],
+                       time = dat_brain$timepoint)
+ggplot(data=pca.data.brain, aes(X, Y, label=Sample, color=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", brain.pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC2 - ", brain.pca.var.per[2], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My Brain PCA graph")
+```
+
+#### Check loading scores for PC1of brain
+
+```{r}
+loading_scores_brain <- pca_brain$rotation[,1]
+gene_scores_brain <- abs(loading_scores_brain)
+gene_scores_ranked_brain <- sort(gene_scores_brain, decreasing = TRUE)
+top_10_genes_brain <- names(gene_scores_ranked_brain[1:10])
+top_10_genes_brain
+pca_brain$rotation[top_10_genes_brain,1]
+```
+
+### PCA for Liver
+
+```{r}
+dat_liver <- dat_avg_wide |>
+  filter(tissue == "liver")
+
+expr_mat_liver <- dat_liver |>
+  dplyr::select(-title, -geo_accession, -mouse, -timepoint, -tissue) |>
+  as.matrix()
+
+rownames(expr_mat_liver) <- dat_liver$title   # or geo_accession
+
+pca_liver <- prcomp(expr_mat_liver, scale. = TRUE)
+
+plot(pca_liver$x[,1], pca_liver$x[,2])
+
+liver.pca.var <- pca_liver$sdev^2
+liver.pca.var.per <- round(liver.pca.var/sum(liver.pca.var)*100, 1)
+liver.pca.var.per
+barplot(liver.pca.var.per, main="Scree Plot Liver", xlab="Principal Component",
+        ylab="Percent variation")
+```
+
+#### ggplot liver
+
+```{r}
+library(ggplot2)
+pca.data.liver <- data.frame(Sample=rownames(pca_liver$x),
+                       X=pca_liver$x[,1],
+                       Y=pca_liver$x[,2],
+                       time = dat_liver$timepoint)
+ggplot(data=pca.data.liver, aes(X, Y, label=Sample, color=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", liver.pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC2 - ", liver.pca.var.per[2], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My Liver PCA graph")
+```
+
+#### Check loading scores for PC1 liver
+
+```{r}
+loading_scores_liver <- pca_liver$rotation[,1]
+gene_scores_liver <- abs(loading_scores_liver)
+gene_scores_ranked_liver <- sort(gene_scores_liver, decreasing = TRUE)
+top_10_genes_liver <- names(gene_scores_ranked_liver[1:10])
+top_10_genes_liver
+pca_liver$rotation[top_10_genes_liver,1]
+```
+
+### PCA for Intestine
+
+```{r}
+dat_intestine <- dat_avg_wide |>
+  filter(tissue == "intestine")
+
+expr_mat_intestine <- dat_intestine |>
+  dplyr::select(-title, -geo_accession, -mouse, -timepoint, -tissue) |>
+  as.matrix()
+
+rownames(expr_mat_intestine) <- dat_intestine$title   # or geo_accession
+
+pca_intestine <- prcomp(expr_mat_intestine, scale. = TRUE)
+
+plot(pca_intestine$x[,1], pca_intestine$x[,2])
+
+intestine.pca.var <- pca_intestine$sdev^2
+intestine.pca.var.per <- round(intestine.pca.var/sum(intestine.pca.var)*100, 1)
+intestine.pca.var.per
+barplot(intestine.pca.var.per, main="Scree Plot Intestine", xlab="Principal Component",
+        ylab="Percent variation")
+```
+
+#### ggplot Intestine
+
+```{r}
+library(ggplot2)
+pca.data.intestine <- data.frame(Sample=rownames(pca_intestine$x),
+                       X=pca_intestine$x[,1],
+                       Y=pca_intestine$x[,2],
+                       time = dat_intestine$timepoint)
+ggplot(data=pca.data.intestine, aes(X, Y, label=Sample, color=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", intestine.pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC2 - ", intestine.pca.var.per[2], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My intestine PCA graph")
+```
+
+#### Check loading scores for Intestine
+
+```{r}
+loading_scores_intestine <- pca_intestine$rotation[,1]
+gene_scores_intestine <- abs(loading_scores_intestine)
+gene_scores_ranked_intestine <- sort(gene_scores_intestine, decreasing = TRUE)
+top_10_genes_intestine <- names(gene_scores_ranked_intestine[1:10])
+top_10_genes_intestine
+pca_intestine$rotation[top_10_genes_intestine,1]
+```
+
+### PCA for Kidney
+
+```{r}
+dat_kidney <- dat_avg_wide |>
+  filter(tissue == "kidney")
+
+expr_mat_kidney <- dat_kidney |>
+  dplyr::select(-title, -geo_accession, -mouse, -timepoint, -tissue) |>
+  as.matrix()
+
+rownames(expr_mat_kidney) <- dat_kidney$title   # or geo_accession
+
+pca_kidney <- prcomp(expr_mat_kidney, scale. = TRUE)
+
+plot(pca_kidney$x[,1], pca_kidney$x[,2])
+
+kidney.pca.var <- pca_kidney$sdev^2
+kidney.pca.var.per <- round(kidney.pca.var/sum(kidney.pca.var)*100, 1)
+kidney.pca.var.per
+barplot(kidney.pca.var.per, main="Scree Plot kidney", xlab="Principal Component",
+        ylab="Percent variation")
+```
+
+#### ggplot Kidney
+
+```{r}
+library(ggplot2)
+pca.data.kidney <- data.frame(Sample=rownames(pca_kidney$x),
+                       X=pca_kidney$x[,1],
+                       Y=pca_kidney$x[,2],
+                       time = dat_kidney$timepoint)
+ggplot(data=pca.data.kidney, aes(X, Y, label=Sample, color=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", kidney.pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC2 - ", kidney.pca.var.per[2], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My kidney PCA graph")
+```
+
+#### Check loading scores for Kidney
+
+```{r}
+loading_scores_kidney <- pca_kidney$rotation[,1]
+gene_scores_kidney <- abs(loading_scores_kidney)
+gene_scores_ranked_kidney <- sort(gene_scores_kidney, decreasing = TRUE)
+top_10_genes_kidney <- names(gene_scores_ranked_kidney[1:10])
+top_10_genes_kidney
+pca_kidney$rotation[top_10_genes_kidney,1]
+```
+
+### PCA for Muscle
+
+```{r}
+dat_muscle <- dat_avg_wide |>
+  filter(tissue == "muscle")
+
+expr_mat_muscle <- dat_muscle |>
+  dplyr::select(-title, -geo_accession, -mouse, -timepoint, -tissue) |>
+  as.matrix()
+
+rownames(expr_mat_muscle) <- dat_muscle$title   # or geo_accession
+
+pca_muscle <- prcomp(expr_mat_muscle, scale. = TRUE)
+
+plot(pca_muscle$x[,1], pca_muscle$x[,2])
+
+muscle.pca.var <- pca_muscle$sdev^2
+muscle.pca.var.per <- round(muscle.pca.var/sum(muscle.pca.var)*100, 1)
+muscle.pca.var.per
+barplot(muscle.pca.var.per, main="Scree Plot muscle", xlab="Principal Component",
+        ylab="Percent variation")
+```
+
+#### ggplot Muscle
+
+```{r}
+library(ggplot2)
+pca.data.muscle <- data.frame(Sample=rownames(pca_muscle$x),
+                       X=pca_muscle$x[,1],
+                       Y=pca_muscle$x[,2],
+                       time = dat_muscle$timepoint)
+ggplot(data=pca.data.muscle, aes(X, Y, label=Sample, color=time)) +
+  geom_point() +
+  xlab(paste("PC1 - ", muscle.pca.var.per[1], "%", sep="")) + 
+  ylab(paste("PC2 - ", muscle.pca.var.per[2], "%", sep="")) +
+  theme_bw()+
+  ggtitle("My muscle PCA graph")
+```
+
+#### Check loading scores for Muscle
+
+```{r}
+loading_scores_muscle <- pca_muscle$rotation[,1]
+gene_scores_muscle <- abs(loading_scores_muscle)
+gene_scores_ranked_muscle <- sort(gene_scores_muscle, decreasing = TRUE)
+top_10_genes_muscle <- names(gene_scores_ranked_muscle[1:10])
+top_10_genes_muscle
+pca_muscle$rotation[top_10_genes_muscle,1]
+```

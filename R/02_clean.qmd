@@ -7,6 +7,14 @@ editor: visual
 ## Clean data
 
 ```{r}
+library(GEOquery)
+library(tidyverse)
+library(dplyr)
+library(AnnotationDbi)
+library(org.Mm.eg.db)
+```
+
+```{r}
 #| label: extract data
 
 expression <- Biobase::exprs(GSE24504_raw)
@@ -20,59 +28,6 @@ samples <- Biobase::pData(GSE24504_raw)
 genes <- Biobase::fData(GSE24504_raw)
 
 
-```
-
-```{r}
-#| label: new dataframe
-
-samples_clean <- samples |> 
-  select(title, 
-         geo_accession, 
-         source_name_ch1, 
-         `mouse:ch1`,
-         `timepoint:ch1`,
-         `tissue:ch1`) |> 
-  rename(mouse = `mouse:ch1`,
-         timepoint = `timepoint:ch1`,
-         tissue = `tissue:ch1`)
-
-
-expression_entrezid <- expression |> 
-  as.data.frame() |> 
-  tibble::rownames_to_column(var = "ID") |> 
-  full_join(genes |> 
-              dplyr::mutate(ID = as.character(ID)) |> 
-              select(ENTREZ_ID, ID, FLAG),
-            by = "ID") |> 
-  dplyr::relocate(ENTREZ_ID, FLAG, .before = 1) |> 
-  filter(FLAG == "0") |> 
-  select(-ID, -FLAG)
-
-
-expression_long <- expression_entrezid |>
-  as.data.frame() |>
-  pivot_longer(cols = -ENTREZ_ID, 
-               names_to = "geo_accession", 
-               values_to = "expression")
-```
-
-```{r}
-#| label: join for final dataframe
-
-dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession") 
-
-dat_avg <- dat_clean_long |>
-  filter(!is.na(ENTREZ_ID)) |>
-  group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
-  summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
-
-dir.create("../data")
-
-write.table(
-  x = dat_avg,
-  file = "../data/data_aug",
-  sep = "\t"
-)
 ```
 
 ### Update the labels
@@ -90,12 +45,6 @@ BiocManager::install(c("org.Mm.eg.db", "AnnotationDbi"))
 
 ```{r}
 #| label: updating annotations
-
-#load packages
-library(dplyr)
-library(AnnotationDbi)
-library(org.Mm.eg.db)
-
 
 #| label: update annotations
 
@@ -165,4 +114,52 @@ genes_updated <- genes_updated %>%
   )
 ```
 
-###  
+### 
+
+```{r}
+#| label: new dataframe
+
+samples_clean <- samples |> 
+  dplyr::select(title, 
+         geo_accession, 
+         source_name_ch1, 
+         `mouse:ch1`,
+         `timepoint:ch1`,
+         `tissue:ch1`) |> 
+  dplyr::rename(mouse = `mouse:ch1`,
+         timepoint = `timepoint:ch1`,
+         tissue = `tissue:ch1`)
+
+
+expression_entrezid <- expression |> 
+  as.data.frame() |> 
+  tibble::rownames_to_column(var = "ID") |> 
+  full_join(genes_updated |> 
+              dplyr::mutate(ID = as.character(ID)) |> 
+              dplyr::select(ENTREZ_ID, ID, FLAG),
+            by = "ID") |> 
+  dplyr::relocate(ENTREZ_ID, FLAG, .before = 1) |> 
+  dplyr::filter(FLAG == "0") |> 
+  dplyr::select(-ID, -FLAG)
+
+
+expression_long <- expression_entrezid |>
+  as.data.frame() |>
+  pivot_longer(cols = -ENTREZ_ID, 
+               names_to = "geo_accession", 
+               values_to = "expression")
+```
+
+```{r}
+#| label: join for final dataframe
+
+dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession") 
+
+dat_avg <- dat_clean_long |>
+  filter(!is.na(ENTREZ_ID)) |>
+  group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
+  summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
+
+
+saveRDS(dat_avg, "../data/data_aug.rds")
+```
