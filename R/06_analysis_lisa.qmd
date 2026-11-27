@@ -1,0 +1,134 @@
+---
+title: "06_analysis_lisa"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: libraries
+
+
+library("tidyverse")
+library("broom")
+library("msigdbr")
+```
+
+## Analysis over time
+
+```{r}
+#| label: analysis expression over time
+
+# import data from data folder
+data_aug <- read.table("../data/data_aug")
+
+
+
+# WIP: how many genes were expressed differently with significance
+expression_stats <- data_aug |>
+  # calculate diff to t=0
+  group_by(tissue, ENTREZ_ID, source_name_ch1) |> 
+  mutate(
+    expression_0 = expression[timepoint == 0][1],
+    diff_to_0 = expression - expression_0) |> 
+  ungroup() |> 
+  # make t-test
+  group_by(tissue, timepoint, ENTREZ_ID) |>
+  nest() |>
+  ungroup() |>
+  mutate(
+    n = map_int(data, ~ sum(!is.na(.x$diff_to_0)))
+  ) |>
+  filter(n >= 2) |>
+  mutate(
+    test = map(data, ~ tidy(t.test(.x$diff_to_0, mu = 0)))
+  ) |>
+  unnest(test) |>
+  group_by(tissue, timepoint) |>
+  mutate(
+    q_value = p.adjust(p.value, method = "BH"),
+    is_sig = q_value < 0.05
+  ) |>
+  ungroup() |>
+  dplyr::select(tissue, timepoint, mean_log2fc = estimate, p.value, q_value, is_sig)
+
+
+
+
+# TEMP SOLUTION: make random significance
+expression_stats_random <- data_aug |> 
+  mutate(is_sig = sample(c(TRUE, FALSE), 
+                         nrow(data_aug), 
+                         replace = TRUE,
+                         prob = c(0.1, 0.9)))
+
+
+
+
+# histogramm
+expression_stats_random |> 
+  filter(is_sig == TRUE) |> 
+  ggplot(mapping = aes(x = timepoint,
+                       fill = tissue,
+                       group = tissue)) +
+  geom_histogram(binwidth = 6,
+                 position = "dodge",
+                 colour = "black",
+                 linewidth = 0.2) +
+  scale_fill_manual(
+    values = c(
+      brain = "red2", 
+      intestine = "gold2",
+      kidney = "darkolivegreen4",
+      liver = "deepskyblue2",
+      muscle = "darkorchid2")) +
+  scale_x_continuous(breaks = c(0, 12, 24, 48, 72)) +
+  theme_minimal() +
+  labs(
+    title = "Expression of genes with time",
+    subtitle = "Genes with significantly different expression compared to t=0 (t-test, p > 0.05)",
+    x = "timepoints [h]",
+    y = "number of differentially expressed genes")
+```
+
+## Analysis heatmap
+
+```{r}
+#| label: Analysis heatmap
+
+# Download the 50 hallmark pathways from mouse
+hallmark_mm <- msigdbr(species = "Mus musculus", category = "H") |>
+  transmute(
+    pathway = gs_name |>
+      str_remove("^HALLMARK_") |>
+      str_replace_all("_", " ") |>
+      str_to_title(),
+    ENTREZ_ID = as.character(entrez_gene)
+  ) |>
+  distinct()
+
+# new df with difference per gene over all samples
+expression_stats_heat <- data_aug |> 
+  mutate(ENTREZ_ID = as.character(ENTREZ_ID)) |> 
+  group_by(ENTREZ_ID) |> 
+  mutate(expression_diff = (expression - mean(expression))/sd(expression)) |> 
+  inner_join(hallmark_mm, by = "ENTREZ_ID", relationship = "many-to-many") |>
+  ungroup()
+
+# plot
+expression_stats_heat |> 
+  mutate(timepoint = as.factor(timepoint)) |> 
+  ggplot(mapping = aes(x = timepoint,
+                       y = sort_by(ENTREZ_ID, pathway),
+                       fill = expression_diff)) +
+    geom_tile() +
+    facet_grid(~ tissue, scales = "free_x", space = "free_x") +
+    scale_fill_gradient2(midpoint = 0,
+                        limits = c(-3, 3),
+                        low = "blue",
+                        mid = "white",
+                        high = "red") +
+    theme_classic()
+
+expression_stats_heat |> 
+  filter(ENTREZ_ID == "11303")
+```
