@@ -31,6 +31,7 @@ GPL11012 <- getGEO("GPL11012")
 GSE24504_raw <- getGEO("GSE24504", GSEMatrix = TRUE, getGPL = TRUE)[[1]]
 
 #Extracts tabular data (microarray annotation table)
+dir.create("../data/_raw", recursive = TRUE)
 metadata <- Biobase::pData(GSE24504_raw)
 write_delim(metadata, 
           file = "../data/_raw/metadata.tsv")
