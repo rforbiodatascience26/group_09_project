@@ -18,16 +18,7 @@ library(org.Mm.eg.db)
 ```{r}
 #| label: extract data
 
-expression <- Biobase::exprs(GSE24504_raw)
-# columns ("GSM60...") = samples (one sample of one organ of one mouse after one time)
-# rows (1 to 22680) = number of microarray probe
-# values = normalized log2 ratio Cy3/Cy5 (test/reference)
-
-samples <- Biobase::pData(GSE24504_raw)
-# description of the samples
-
-genes <- Biobase::fData(GSE24504_raw)
-
+EXTRACT
 
 ```
 
