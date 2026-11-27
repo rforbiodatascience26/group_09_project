@@ -1,0 +1,299 @@
+---
+title: "PCA2"
+format: html
+editor: visual
+---
+
+## PCA removing the genes that don't move
+
+### Load packages
+
+```{r}
+#Load packages 
+library(tidyverse)   
+library(limma)       # differential expression for microarray data (Bioconductor)
+options(bitmapType = "cairo")
+library(conflicted)
+conflicts_prefer(dplyr::select, dplyr::filter, dplyr::slice, dplyr::lag) #choose which library is default
+```
+
+### Separate data
+
+```{r}
+dat_avg <- readRDS("../data/data_aug.rds") #read data from the file
+dat_avg_wide <- dat_avg |>   #initiate pipeline to make the data wide
+  pivot_wider(id_cols = c(title,geo_accession, mouse, timepoint, tissue),
+              names_from  = ENTREZ_ID,
+              values_from = expression
+              ) #make the data wide choosing the names of the columns from the entrezID and the expression values while keeping the identification columns
+
+
+meta <- dat_avg_wide |> #seperatee metadata from experimental data
+  dplyr::select(title, geo_accession, mouse, timepoint, tissue) |>
+    mutate(
+    time   = as.numeric(as.character(timepoint)), #ensure time is saved as numeric
+    tissue = as.character(tissue) #ensure tissue is saved as character
+  ) 
+
+```
+
+```{r}
+expr_mat <- dat_avg_wide |> #seperate experimental data from metadata
+  select(-geo_accession, -mouse, -timepoint, -tissue) |>  #remove these columns
+  column_to_rownames("title") |>  #make row names the "title" column                    
+  as.matrix()   #saved as matrix for prcomp to work
+
+#this chunk makes a table with one sample per row and one gene per column
+```
+
+```{r}
+#This chunk removes any genes that don't have any variance across all samples and serves no purpose for the PCA analysis, prcomp can't scale a constant column
+
+genes_vary <- expr_mat |>
+  as_tibble() |> 
+  map_lgl(~ var(.x) > 0) #Mark TRUE each gene with variance >0
+expr_mat <- expr_mat[, genes_vary] #Keep all rows and only keep genes marked as true
+
+cat("Samples:", nrow(expr_mat), " Genes:", ncol(expr_mat), "\n")
+cat("Genes removed:", sum(!genes_vary))
+
+tissues <- unique(meta$tissue) #make an array of the 5 tissues for the rest of the code
+```
+
+Quality Check
+
+```{r}
+# Sample-vs-sample distance = 1 - Pearson correlation (the paper's setting).
+sample_dist <- as.dist(1 - cor(t(expr_mat)))                   
+hc <- hclust(sample_dist, method = "complete")                 
+ 
+# Colour code: one colour per organ (named vector so we can look colours up by organ)
+tissue_cols <- set_names(rainbow(length(tissues)), tissues)    # rainbow(5) gives 5 colours; set_names() labels each with its organ
+
+plot(hc, labels = FALSE, hang = -1,                            
+     main = "Sample clustering")  
+points(seq_along(hc$order), rep(0, length(hc$order)),          
+       col = tissue_cols[meta$tissue[hc$order]], pch = 15)    
+legend("topright", legend = names(tissue_cols), col = tissue_cols, pch = 15)  
+```
+
+### Find only genes that change with fasting
+
+```{r}
+#Use limma to find only genes that change significantly with fasting in any tissue
+
+expr_genes_by_samples <- t(expr_mat) #limma needs samples in columns
+
+de_list <- tissues |> #start from vector of tissue names
+  set_names() |>                         # name each list element by its organ
+  map(function(tis) {                   # map() used to run a function once per organ (list  element)
+
+    keep   <- meta$tissue == tis        # Mark as TRUE samples from current organ
+    tfac   <- factor(meta$time[keep])    # organ's timepoints as categories
+    design <- model.matrix(~ tfac)       # design table with 0h as baseline and one column for each other timepoint
+    
+    fit <- lmFit(expr_genes_by_samples[, keep], design) #create a linear model for each gene in the current organ
+    fit <- eBayes(fit)                #find p-values of the linear models
+
+    # coef = 2:ncol(design) test if there is any difference from 0h at each timepoint
+    # p.value = 0.05 keeps genes with p < 0.05 (difference)
+    topTable(fit, coef = 2:ncol(design), number = Inf, p.value = 0.05) |>
+      rownames_to_column("gene") |>               # make gene names a column
+      pull(gene)                                  # return gene names
+  })
+
+# Number of diffretly expressed genes per organ
+de_counts <- de_list |>
+  map_int(length) |>                              # length of each organ's gene list
+  enframe(name = "tissue", value = "n_DE_genes")   # make named vector into a tidy table
+print(de_counts)
+
+# Find all genes that change in atleast one organ
+de_union <- de_list |> unlist() |> unique()
+cat("Total differentyl expressed genes in any tissue:", length(de_union), "\n")
+
+# Expression matrix of only those genes 
+expr_de <- expr_mat[, de_union]
+
+# NOTE FOR YOUR METHODS: selecting genes by time and then looking at time
+# separation is slightly circular. It is fine for visualising and ranking,
+# but state it. The paper's benchmark: brain 45, intestine 656, kidney 1252,
+# liver 2068, muscle 3057 DE genes.
+
+
+```
+
+### Global PCA on DE genes
+
+```{r}
+# PCA for all organs
+pca <- prcomp(expr_de, scale. = TRUE)
+
+# Variance explained by each PC
+var_tbl <- tibble(                                      #make a table with the PCA data
+  PC      = seq_along(pca$sdev),                        # PC number 1, 2, 3, ...
+  var_pct = pca$sdev^2 / sum(pca$sdev^2) * 100,         # % variance per PC
+  cum_pct = cumsum(var_pct)                             # running total (sum of PCs)
+)
+
+# Scree plot: how much each of the first 15 PCs explains
+var_tbl |>
+  slice_head(n = 15) |>
+  ggplot(aes(PC, var_pct)) +
+  geom_col() +
+  labs(x = "Principal component", y = "% variance", title = "Scree plot") +
+  theme_bw()
+
+#Use smallest number of PCs to explain >=70% of variance, max 10
+n_pcs <- var_tbl |>
+  filter(cum_pct >= 70) |>      # PCs until their running total has reached 70%
+  slice_head(n = 1) |>          # First PC # where running total has reached 70%
+  pull(PC)                  # take PC number 
+cat("Using", n_pcs, "PCs (", round(var_tbl$cum_pct[n_pcs], 1), "% of variance )\n")
+
+# Scores = coordinates of every sample in PC space, joined with its labels
+pc_cols <- paste0("PC", 1:n_pcs) #PCs until reached 70%
+scores <- pca$x |> # Coordinate of each sample in each PC
+  as_tibble(rownames = "sample") |>
+  select(sample, all_of(pc_cols)) |>             
+  left_join(meta |> select(title, tissue, time), by = c("sample" = "title")) 
+
+# PC1 vs PC2 plot: colour = organ, shape = time
+scores |>
+  ggplot(aes(PC1, PC2, color = tissue, shape = factor(time))) +
+  geom_point(size = 2) +
+  labs(x = paste0("PC1 - ", round(var_tbl$var_pct[1], 1), "%"),
+       y = paste0("PC2 - ", round(var_tbl$var_pct[2], 1), "%"),
+       shape = "time (h)", title = "Global PCA (DE genes)") +
+  theme_bw()
+
+
+```
+
+### Euclidean distances 
+
+How much each organ's gene expression moves from the 0h centroid at each timepoint
+
+```{r}
+# Centroid = the average position of a group of samples (mean of each PC).
+centroids <- scores |>
+  group_by(tissue, time) |>                      # one group for each organ and timepoint
+  summarise(across(all_of(pc_cols), mean), .groups = "drop")  # average each PC within the group and then remove the groups
+
+dist_df <- centroids |>
+  pivot_longer(all_of(pc_cols), names_to = "PC", values_to = "value") |>  # one row per organ x time x PC
+  group_by(tissue, PC) |> # group per tissue and PC centroid
+  mutate(shift = value - value[time == 0]) |> # difference from this organ's 0h value on each PC
+  group_by(tissue, time) |>
+  summarise(dist = sqrt(sum(shift^2)),  # Euclidean distance = sqrt of summed squared shifts
+            .groups = "drop") |>
+  filter(time > 0)                         # the 0h-to-0h distance is 0 by definition
+print(dist_df)
+ 
+# Plot distance over time
+dist_df |>
+  ggplot(aes(time, dist, color = tissue)) +
+  geom_line() + geom_point(size = 2) +
+  scale_x_continuous(breaks = c(12, 24, 48, 72)) +
+  labs(x = "Time of fasting (h)",
+       y = "Euclidean distance from 0h centroid (PC space)",
+       title = "How far has each organ moved from its fed state?") +
+  theme_bw()
+```
+
+Check if shift in gene expression is bigger than the normal scatter between samples
+
+```{r}
+noise_df <- scores |>
+  filter(time == 0) |>                                          # fed samples only
+  pivot_longer(all_of(pc_cols), names_to = "PC", values_to = "value") |>
+  group_by(tissue, PC) |>
+  mutate(dev = value - mean(value)) |>         # deviation from the organ's 0h centroid
+  group_by(tissue, sample) |>
+  summarise(d0 = sqrt(sum(dev^2)), .groups = "drop") |>      # each 0h sample's distance to the centroid
+  group_by(tissue) |>
+  summarise(noise = mean(d0), .groups = "drop")           # average scatter per organ
+
+# Ratio > 1 means the shift is larger than the typical scatter of the 0h samples
+dist_vs_noise <- dist_df |>
+  left_join(noise_df, by = "tissue") |>
+  mutate(ratio_to_noise = dist / noise)
+print(dist_vs_noise)
+
+```
+
+Rank each organ's shift and responsiveness
+
+```{r}
+# (a) Rank at each timepoint (1 = biggest shift = most responsive)
+ranks_by_time <- dist_df |>
+  group_by(time) |>
+  mutate(rank = rank(-dist)) |>    # minus sign so the largest distance gets rank 1
+  ungroup()
+print(ranks_by_time)
+
+# (b) Overall summary per organ
+# Helper: area under the distance-vs-time curve (trapezoid rule, starting at 0 at t = 0)
+auc_fun <- function(t, d) {
+  t <- c(0, t); d <- c(0, d)
+  sum(diff(t) * (head(d, -1) + tail(d, -1)) / 2)
+}
+
+summary_df <- dist_df |>
+  group_by(tissue) |>
+  summarise(max_dist  = max(dist),               # largest shift reached
+            mean_dist = mean(dist),              # average shift across timepoints
+            auc       = auc_fun(time, dist),     # total "response over time"
+            .groups   = "drop") |>
+  left_join(ranks_by_time |>
+              group_by(tissue) |>
+              summarise(mean_rank = mean(rank), .groups = "drop"),
+            by = "tissue") |>
+  arrange(mean_rank)                             # most responsive organ first
+print(summary_df)
+
+# SANITY CHECK vs the paper's DE gene counts: you expect roughly
+# muscle > liver > kidney > intestine > brain
+
+```
+
+Test which organ responds earlier, only timing
+
+```{r}
+# Distance tells you who moves MOST. Earliness needs the shape of the curve.
+
+# (a) Time at which an organ reaches 50% of its own maximum shift
+timing <- dist_df |>
+  group_by(tissue) |>
+  mutate(frac_of_max = dist / max(dist)) |>     # scale each organ to its own maximum (0-1)
+  summarise(time_to_50pct = min(time[frac_of_max >= 0.5]), .groups = "drop") |>
+  arrange(time_to_50pct)                         # earlier = responds earlier
+print(timing)
+
+# (b) Step size between consecutive timepoints (0->12, 12->24, 24->48, 48->72)
+step_df <- centroids |>
+  pivot_longer(all_of(pc_cols), names_to = "PC", values_to = "value") |>
+  arrange(tissue, PC, time) |>                  # make sure timepoints are in order
+  group_by(tissue, PC) |>
+  mutate(from   = lag(time),                     # the previous timepoint
+         change = value - lag(value)) |>        # movement on this PC since then
+  filter(!is.na(from)) |>                       # the first timepoint has no predecessor
+  group_by(tissue, from, to = time) |>          # one group per organ and interval
+  summarise(step_dist = sqrt(sum(change^2)),     # Euclidean distance moved in that interval
+            .groups = "drop") |>
+  mutate(hours    = to - from,             # interval length (unequal: 12, 12, 24, 24 h)
+         rate     = step_dist / hours,           # shift per hour
+         interval = factor(paste0(from, "-", to, "h"),
+                           levels = c("0-12h", "12-24h", "24-48h", "48-72h")))
+print(step_df)
+
+# Plot the rate of change: an early responder has a high rate in the first interval
+step_df |>
+  ggplot(aes(interval, rate, fill = tissue)) +
+  geom_col(position = "dodge") +
+  labs(x = "Interval", y = "Shift per hour (PC units / h)",
+       title = "When does each organ change most?") +
+  theme_bw()
+
+ 
+```
