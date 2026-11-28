@@ -75,6 +75,7 @@ allHeaders |>   #Then you simply compare the 1st element in the list of tibbles 
 ```{r}
 #| label: define-array-reader
 #| message: FALSE
+#| echo: FALSE
 #Read each array file and extract the important columns to us
 readArray <- function(file) {
 
@@ -138,5 +139,4 @@ sameOrder <- arrayList |>
 
 table(sameOrder)
 
-LEFTJOINNNNN
 ```

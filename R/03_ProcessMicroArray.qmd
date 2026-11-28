@@ -77,6 +77,7 @@ dim(RG)
 #the control probes for normalization purposes
 annotation <- read_tsv(file = "../data/_raw/annotation.tsv") |> 
   as_tibble()
+GPL11012 <- getGEO("GPL11012")
 annotation <- Table(GPL11012)
 
 #See the annotation table
@@ -132,6 +133,7 @@ par(mfrow = c(1, 1))
 ```{r}
 #| label: background-correction
 #| message: FALSE
+#| echo: FALSE
 
 #Correct for the background noise using normexp (authors did the same)
 #Can manage background higher than measurment... uses normal distribution to model noise
@@ -277,7 +279,7 @@ expressionMatrix <- expressionMatrix |>
 #Matrix dimensions check
 dim(expressionMatrix)
 
-write_delim(
+write_tsv(
   data.frame(expressionMatrix),
   file = "../data/foldChangeExpression.tsv"
 )
