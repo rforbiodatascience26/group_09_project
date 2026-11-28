@@ -8,6 +8,16 @@ editor: visual
 ## Clean data
 
 ```{r}
+#| label: packages and libraries
+#| answer: FALSE
+#| echo: FALSE
+
+# Install packages
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")}
+if (!requireNamespace("org.Mm.eg.db", "AnnotationDbi", quietly = TRUE)) {
+  install.packages(c("org.Mm.eg.db", "AnnotationDbi"))}
+
 library(GEOquery)
 library(tidyverse)
 library(dplyr)
@@ -18,33 +28,19 @@ library(org.Mm.eg.db)
 ```{r}
 #| label: extract data
 
-EXTRACT
-
+foldChangeExpression <- readr::read_tsv("../data/foldChangeExpression.tsv")
 ```
 
 ### Update the labels
 
 ```{r}
-#| label: loading packages
-
-# Install Bioconductor packages (run only once)
-if (!requireNamespace("BiocManager", quietly = TRUE)) {
-  install.packages("BiocManager")
-}
-
-BiocManager::install(c("org.Mm.eg.db", "AnnotationDbi"))
-```
-
-```{r}
 #| label: updating annotations
 
-#| label: update annotations
-
 # Prepare accession numbers
-genes_to_update <- genes |>
+genes_to_update <- annotation |>
   mutate(
-    GB_ACC_clean = sub("\\.[0-9]+$", "", as.character(GB_ACC))
-  )
+    GB_ACC_clean = sub("\\.[0-9]+$", "", 
+                       as.character(GB_ACC)))
 
 # Get unique accessions
 accessions <- unique(na.omit(genes_to_update$GB_ACC_clean))
@@ -106,12 +102,13 @@ genes_updated <- genes_updated |>
   )
 ```
 
-### 
+### Create new data frames
 
 ```{r}
 #| label: new dataframe
 
-samples_clean <- samples |> 
+# choose useful columns from metadata
+metadata_clean <- metadata |> 
   dplyr::select(title, 
          geo_accession, 
          source_name_ch1, 
@@ -122,36 +119,48 @@ samples_clean <- samples |>
          timepoint = `timepoint:ch1`,
          tissue = `tissue:ch1`)
 
-
-expression_entrezid <- expression |> 
+# join fold change expression with entrez ID to identify genes
+expression_entrezid <- foldChangeExpression |> 
   as.data.frame() |> 
   tibble::rownames_to_column(var = "ID") |> 
   full_join(genes_updated |> 
               dplyr::mutate(ID = as.character(ID)) |> 
-              dplyr::select(ENTREZ_ID, ID, FLAG),
+              dplyr::select(ENTREZ_ID, 
+                            ID, 
+                            FLAG),
             by = "ID") |> 
-  dplyr::relocate(ENTREZ_ID, FLAG, .before = 1) |> 
+  dplyr::relocate(ENTREZ_ID, 
+                  FLAG, 
+                  .before = 1) |> 
   dplyr::filter(FLAG == "0") |> 
-  dplyr::select(-ID, -FLAG)
+  dplyr::select(-ID, 
+                -FLAG)
 
-
+# pivot longer for further use
 expression_long <- expression_entrezid |>
   as.data.frame() |>
   pivot_longer(cols = -ENTREZ_ID, 
                names_to = "geo_accession", 
                values_to = "expression")
+
+# join expression and metadata 
+dat_clean_long <- full_join(metadata_clean, 
+                            expression_long, 
+                            by = "geo_accession")
 ```
 
 ```{r}
 #| label: join for final dataframe
+#| echo: FALSE
+#| answer: FALSE
 
-dat_clean_long <- full_join(samples_clean, expression_long, by = "geo_accession") 
-
+# create final dataframe to work with
 dat_avg <- dat_clean_long |>
   filter(!is.na(ENTREZ_ID)) |>
   group_by(title, geo_accession, source_name_ch1, mouse, timepoint, tissue, ENTREZ_ID) |>
   summarise(expression = mean(expression, na.rm = TRUE), .groups = "drop")
 
-
-saveRDS(dat_avg, "../data/data_aug.rds")
+# save into data folder
+saveRDS(dat_avg, 
+        "../data/data_aug.rds")
 ```
